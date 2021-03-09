@@ -1,6 +1,6 @@
 spring:
   application:
-    name: yzl_activiti
+    name: yzl-activiti
   profiles:
     active: dev
 server:
@@ -9,8 +9,6 @@ logging:
   file:
     path: /opt/logs
   config: classpath:logback.xml
-
-appId: activiti
 
 
 

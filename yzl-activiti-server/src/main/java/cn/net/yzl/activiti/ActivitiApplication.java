@@ -11,7 +11,6 @@ import org.springframework.scheduling.annotation.EnableAsync;
 @SpringBootApplication(scanBasePackages = {"cn.net.yzl.activiti","cn.net.yzl.logger"})
 @EnableDiscoveryClient
 @EnableSwagger
-//@EnableTransactionManagement(order = 10) //开启事务，并设置order值，默认是Integer的最大
 @EnableAsync
 @EnableRabbit
 @EnableFeignClients(basePackages = {"cn.net.yzl.activiti.feign"})
