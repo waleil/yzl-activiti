@@ -1,0 +1,25 @@
+spring:
+  application:
+    name: yzl_activiti
+  profiles:
+    active: dev
+server:
+  port: 8090
+logging:
+  file:
+    path: /opt/logs
+  config: classpath:logback.xml
+
+appId: activiti
+
+
+
+
+
+
+
+
+
+
+
+

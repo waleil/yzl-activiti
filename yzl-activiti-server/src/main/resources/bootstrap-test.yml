@@ -1,0 +1,16 @@
+spring:
+  cloud:
+    nacos:
+      server-addr: http://nacostest.staff.yuzhilin.net.cn
+      discovery:
+        username: apigateway
+        password: apigateway
+        namespace: a97dae2d-5fcd-4dc3-bfa1-5f7b9b1dfd5a
+        register-enabled: true
+      config:
+        namespace: 12b929ad-11cb-449d-8f3a-e697e0a6cd2e
+        username: activiti
+        password: activiti
+        prefix: yzl-activiti-test
+        file-extension: yaml
+
