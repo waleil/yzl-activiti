@@ -113,12 +113,6 @@
             <version>5.2</version>
             <scope>runtime</scope>
         </dependency>
-        <!--common-->
-        <dependency>
-            <groupId>cn.net.yzl</groupId>
-            <artifactId>yzl-common</artifactId>
-            <version>1.0-RELEASE</version>
-        </dependency>
         <!--log-->
         <dependency>
             <groupId>cn.net.yzl</groupId>
@@ -172,10 +166,16 @@
             <artifactId>okhttp</artifactId>
             <version>3.8.1</version>
         </dependency>
+        <dependency>
+            <groupId>cn.net.yzl</groupId>
+            <artifactId>yzl-common</artifactId>
+            <version>1.0-RELEASE</version>
+            <scope>compile</scope>
+        </dependency>
     </dependencies>
 
     <build>
-        <finalName>yzl-asr-server</finalName>
+        <finalName>yzl-activiti-server</finalName>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
