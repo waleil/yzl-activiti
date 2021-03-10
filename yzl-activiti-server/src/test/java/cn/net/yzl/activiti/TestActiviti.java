@@ -1,4 +1,4 @@
-package cn.net.yzl.activiti;
+package java.cn.net.yzl.activiti;
 
 import cn.net.yzl.activiti.config.SecurityUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -11,6 +11,10 @@ import org.activiti.api.runtime.shared.query.Pageable;
 import org.activiti.api.task.model.Task;
 import org.activiti.api.task.model.builders.TaskPayloadBuilder;
 import org.activiti.api.task.runtime.TaskRuntime;
+import org.activiti.engine.ProcessEngine;
+import org.activiti.engine.ProcessEngines;
+import org.activiti.engine.RepositoryService;
+import org.activiti.engine.repository.Deployment;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,7 +43,7 @@ public class TestActiviti {
     @Test
     public void findProcess(){
         securityUtil.logInAs("jack");
-//        流程定义的分页对象
+        //流程定义的分页对象
         Page<ProcessDefinition> definitionPage = processRuntime.processDefinitions(Pageable.of(0, 10));
         log.info("可用的流程定义总数：{}",definitionPage.getTotalItems());
         for (ProcessDefinition processDefinition : definitionPage.getContent()) {
@@ -54,7 +58,7 @@ public class TestActiviti {
      */
     @Test
     public void startProcess(){
-//        设置登录用户
+        //设置登录用户
         securityUtil.logInAs("system");
         ProcessInstance processInstance = processRuntime.
                 start(ProcessPayloadBuilder.
@@ -69,26 +73,24 @@ public class TestActiviti {
      */
     @Test
     public void doTask(){
-//        设置登录用户
+        //设置登录用户
         securityUtil.logInAs("jerry");
-//        查询任务
+        //查询任务
         Page<Task> taskPage = taskRuntime.tasks(Pageable.of(0, 10));
         if(taskPage != null && taskPage.getTotalItems()>0){
             for (Task task : taskPage.getContent()) {
-                //        拾取任务
+                //拾取任务
                 taskRuntime.claim(TaskPayloadBuilder.
                         claim().
                         withTaskId(task.getId()).
                         build());
                 log.info("任务内容,{}",task);
-                //        完成任务
+                //完成任务
                 taskRuntime.complete(TaskPayloadBuilder.
                         complete().
                         withTaskId(task.getId()).
                         build());
             }
         }
-
-
     }
 }
