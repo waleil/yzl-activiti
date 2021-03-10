@@ -14,7 +14,6 @@ import org.springframework.stereotype.Component;
 
 import java.util.Collection;
 
-
 @Component
 public class SecurityUtil {
     private Logger logger = LoggerFactory.getLogger(SecurityUtil.class);
