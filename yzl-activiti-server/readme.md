@@ -2,10 +2,36 @@ ProcessEngine 流程引擎
 
 
 
-1.创建流程。
+1. 创建流程。
 定义bpmn流程文件，定义流程节点。
+   
+事件
 
-2.加载流程
+![img.png](img.png)
+Start Event : 开始事件 流程启动开始节点;
+Intermediate Event: 中间事件;
+End Event: 结束事件;
+
+活动
+
+![img_1.png](img_1.png)
+User Task : 用户任务
+Server Task: 服务任务
+
+网关
+
+![img_2.png](img_2.png)
+排他网关 (x)
+并行网关 (+)
+包容网关 (+)
+事件网关 (+)
+
+子流程
+
+![img_3.png](img_3.png)
+
+
+2. 流程部署
 ```
     /**
      * 流程部署
@@ -28,14 +54,13 @@ ProcessEngine 流程引擎
     }
 ```
 
-涉及表操作
+表操作
 
 act_re_deployment 部署单元信息(act_ge_bytearray父表)
 
 act_ge_bytearray 通用的流程定义和流程资源
 
 act_re_procdef 已部署的流程定义
-
 
 3. 查询流程内容
 ```
@@ -56,7 +81,7 @@ act_re_procdef 已部署的流程定义
         }
     }
 ```
-4.启动流程
+4. 启动流程
 ```
     /**
      * 启动流程
@@ -73,7 +98,7 @@ act_re_procdef 已部署的流程定义
         log.info("流程实例的内容，{}",processInstance);
     }
 ```
-5.执行任务
+5. 执行任务
 ```
     /**
      * 执行任务

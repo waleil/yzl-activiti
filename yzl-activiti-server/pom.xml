@@ -205,6 +205,8 @@
                     <include>**/*.xml</include>
                     <include>**/*.yml</include>
                     <include>**/*.tld</include>
+                    <include>**/*.bpmn</include>
+                    <include>**/*.png</include>
                 </includes>
                 <filtering>false</filtering>
             </resource>
@@ -215,6 +217,8 @@
                     <include>**/*.xml</include>
                     <include>**/*.yml</include>
                     <include>**/*.tld</include>
+                    <include>**/*.bpmn</include>
+                    <include>**/*.png</include>
                 </includes>
                 <filtering>false</filtering>
             </resource>
