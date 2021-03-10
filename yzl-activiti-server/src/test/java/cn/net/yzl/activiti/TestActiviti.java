@@ -1,4 +1,4 @@
-package java.cn.net.yzl.activiti;
+package cn.net.yzl.activiti;
 
 import cn.net.yzl.activiti.config.SecurityUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -63,7 +63,7 @@ public class TestActiviti {
         ProcessInstance processInstance = processRuntime.
                 start(ProcessPayloadBuilder.
                         start().
-                        withProcessDefinitionKey("mydemo").
+                        withProcessDefinitionKey("myEvection").
                         build());
         log.info("流程实例的内容，{}",processInstance);
     }

@@ -1,4 +1,4 @@
-package java.cn.net.yzl.activiti;
+package cn.net.yzl.activiti;
 
 public class TestHistoryService {
 }
