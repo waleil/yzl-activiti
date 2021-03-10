@@ -3,13 +3,13 @@ spring:
     nacos:
       server-addr: 192.168.32.33:8848,192.168.32.34:8848,192.168.32.35:8848
       discovery:
-        username: apigateway
-        password: apigateway
+        username: servergateway
+        password: servergateway
         namespace: a97dae2d-5fcd-4dc3-bfa1-5f7b9b1dfd5a
       #        register-enabled: false
       config:
         namespace: 12b929ad-11cb-449d-8f3a-e697e0a6cd2e
-        username: activiti
-        password: activiti
+        username: servergateway
+        password: servergateway
         prefix: yzl-activiti-dev
         file-extension: yaml
