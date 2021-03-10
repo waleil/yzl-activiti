@@ -98,6 +98,19 @@ act_re_procdef 已部署的流程定义
         log.info("流程实例的内容，{}",processInstance);
     }
 ```
+表操作
+act_hi_actinst 历史的流程实例 select * from act_hi_actinst;
+
+act_hi_identitylink 历史的流程运行过程中用户关系 select * from act_hi_identitylink;
+
+act_hi_procinst 历史的流程实例
+
+act_hi_taskinst 历史的任务实例 select * from act_hi_taskinst;
+
+act_ru_identitylink 运行时用户关系信息，存储任务节点与参与者 select * from act_ru_identitylink;
+
+act_ru_task 任务表
+
 5. 执行任务
 ```
     /**

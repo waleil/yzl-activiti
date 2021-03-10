@@ -2,16 +2,10 @@ package cn.net.yzl.activiti;
 
 import cn.net.yzl.activiti.config.SecurityUtil;
 import lombok.extern.slf4j.Slf4j;
-import org.activiti.api.process.model.ProcessDefinition;
 import org.activiti.api.process.runtime.ProcessRuntime;
-import org.activiti.api.runtime.shared.query.Page;
-import org.activiti.api.runtime.shared.query.Pageable;
 import org.activiti.api.task.runtime.TaskRuntime;
 import org.activiti.engine.ProcessEngine;
 import org.activiti.engine.ProcessEngines;
-import org.activiti.engine.RepositoryService;
-import org.activiti.engine.TaskService;
-import org.activiti.engine.task.Event;
 import org.activiti.engine.task.Task;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -40,15 +34,15 @@ public class TestTaskService {
      */
     @Test
     public void findPersonnelTaskList(){
-        String assignee = "jack";//当前任务办理人
+        String assignee = "rose";//当前任务办理人
         // 1、创建ProcessEngine
         ProcessEngine processEngine = ProcessEngines.getDefaultProcessEngine();
         List<Task> tasks = processEngine.getTaskService()//与任务相关的Service
                 .createTaskQuery()//创建一个任务查询对象
                 .taskAssignee(assignee)
                 .list();
-        if(tasks !=null && tasks.size()>0){
-            for(Task task:tasks){
+        if(null != tasks && tasks.size() > 0){
+            tasks.forEach(task -> {
                 System.out.println("任务ID:"+task.getId());
                 System.out.println("任务的办理人:"+task.getAssignee());
                 System.out.println("任务名称:"+task.getName());
@@ -56,9 +50,7 @@ public class TestTaskService {
                 System.out.println("任务ID:"+task.getId());
                 System.out.println("流程实例ID:"+task.getProcessInstanceId());
                 System.out.println("#####################################");
-            }
+            });
         }
     }
-
-
 }

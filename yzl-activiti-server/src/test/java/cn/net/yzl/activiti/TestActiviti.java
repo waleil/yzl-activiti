@@ -58,7 +58,7 @@ public class TestActiviti {
      */
     @Test
     public void startProcess(){
-        //设置登录用户
+        //设置登录用户 根据流程key获取当前流程实例 构建
         securityUtil.logInAs("system");
         ProcessInstance processInstance = processRuntime.
                 start(ProcessPayloadBuilder.
@@ -66,6 +66,17 @@ public class TestActiviti {
                         withProcessDefinitionKey("myEvection").
                         build());
         log.info("流程实例的内容，{}",processInstance);
+    }
+
+    /**完成任务*/
+    @Test
+    public void completeTask(){
+        String taskID = "a0a6248f-81a2-11eb-99ec-18c04d47ad75";
+        // 1、创建ProcessEngine
+        ProcessEngine processEngine = ProcessEngines.getDefaultProcessEngine();
+        processEngine.getTaskService().complete(taskID);
+        System.out.println("完成任务："+taskID);
+
     }
 
     /**
