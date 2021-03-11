@@ -5,6 +5,11 @@ ProcessEngine 流程引擎
 1. 创建流程。
 定义bpmn流程文件，定义流程节点。
    
+bpmn生成方式（3种）
+1. actiBPM插件 最多支持3.0版本 新版idea已不支持 只能做些简单的流程配置
+2. activiti explorer
+3. BPMN-JS activiti7 推荐
+   
 事件
 
 ![img.png](img.png)
@@ -56,7 +61,7 @@ Server Task: 服务任务
 
 表操作
 
-act_re_deployment 部署单元信息(act_ge_bytearray父表)
+act_re_deployment 部署单元信息(act_ge_bytearray父表) 工作流开始表
 
 act_ge_bytearray 通用的流程定义和流程资源
 
@@ -139,3 +144,22 @@ act_ru_task 任务表
         }
     }
 ```
+
+6. 解决bpmn乱码问题
+-Dfile.encoding=UTF-8
+
+线性审批（单线路审批）
+
+会签审批（多人审批） 代码量大
+
+条件审批（大于多少天）
+
+Deployment 流程部署 (指定流程key 指定流程名 指定执行人 上传bpmn 上传图片 上传zip(批量) 流程部署增删改查 查询列表和查询xml)
+（获取流程名称 部署时间）
+
+ProcessDefinition 流程定义
+
+
+ProcessInstance 流程实例
+Task 任务处理
+HistoricTaskInstance 历史任务

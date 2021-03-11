@@ -15,6 +15,9 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.List;
 
+/**
+ * 任务service,管理,查询任务，例如签收，办理,指派任务。
+ */
 @Slf4j
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -34,7 +37,7 @@ public class TestTaskService {
      */
     @Test
     public void findPersonnelTaskList(){
-        String assignee = "rose";//当前任务办理人
+        String assignee = "zhangsan";//当前任务办理人
         // 1、创建ProcessEngine
         ProcessEngine processEngine = ProcessEngines.getDefaultProcessEngine();
         List<Task> tasks = processEngine.getTaskService()//与任务相关的Service
