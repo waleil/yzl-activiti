@@ -108,13 +108,13 @@ act_hi_actinst 历史的流程实例 select * from act_hi_actinst;
 
 act_hi_identitylink 历史的流程运行过程中用户关系 select * from act_hi_identitylink;
 
-act_hi_procinst 历史的流程实例
+act_hi_procinst 历史的流程实例     select * from act_hi_procinst ;
 
 act_hi_taskinst 历史的任务实例 select * from act_hi_taskinst;
 
 act_ru_identitylink 运行时用户关系信息，存储任务节点与参与者 select * from act_ru_identitylink;
 
-act_ru_task 任务表
+act_ru_task 任务表   select * from act_ru_task ;
 
 5. 执行任务
 ```
