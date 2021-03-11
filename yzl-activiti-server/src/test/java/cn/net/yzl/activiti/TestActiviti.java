@@ -71,12 +71,11 @@ public class TestActiviti {
     /**完成任务*/
     @Test
     public void completeTask(){
-        String taskID = "17372a98-8239-11eb-9585-5c80b6daeef9";
+        String taskID = "c47c1343-8267-11eb-aace-18c04d47ad75";
         // 1、创建ProcessEngine
         ProcessEngine processEngine = ProcessEngines.getDefaultProcessEngine();
         processEngine.getTaskService().complete(taskID);
         System.out.println("完成任务："+taskID);
-
     }
 
     /**
