@@ -120,31 +120,241 @@ Activity包含了流程中所有的活动数据，例如开始事件（图5表�
 结合请假流程来说，如Task中提到的当完成流程的时候所有下一步要执行的任务（包括各种分支）都会创建一个Activity记录到数据库中。例如领导审核节点点击“同意”按钮就会流转到人事审批节点，如果“驳回”那就流转到调整请假内容节点，每一次操作的Task背后实际记录更详细的活动（Activity）
 
 
+Activiti使用流程
+第一步： 引入相应jar包并初始化数据库
+既然activiti是一个框架，那么我们肯定是需要引入对应的jar包坐标的。
+第二步： 通过工具绘画流程图
+使用 activiti 流程建模工具(activity-designer)定义业务流程(.bpmn 文件) 。.bpmn 文件就是业务流程定义文件，通过 xml 定义业务流程。
+第三步：流程定义部署
+向 activiti 部署业务流程定义（.bpmn 文件），使用 activiti 提供的 api 向 activiti 中部署.bpmn 文件
+第四步： 启动一个流程实例（ProcessInstance）
+启动一个流程实例表示开始一次业务流程的运行，比如员工请假流程部署完成，如果张三要请假就可以启动一个流程实例，如果李四要请假也启动一个流程实例，两个流程的执行互相不影响，就好比定义一个 java 类，实例化两个对象一样，部署的流程就好比 java 类，启动一个流程实例就好比 new 一个 java 对象
+第五步： 用户查询待办任务(Task)
+因为现在系统的业务流程已经交给 activiti 管理，通过 activiti 就可以查询当前流程执行到哪了，当前用户需要办理什么任务了，这些 activiti帮我们管理了。实际上我们学习activiti也只是学习它的API怎么使用，因为很多功能activiti都已经封装好了，我们会调用就行了~
+第六步： 用户办理任务
+用户查询待办任务后，就可以办理某个任务，如果这个任务办理完成还需要其它用户办理，比如采购单创建后由部门经理审核，这个过程也是由 activiti 帮我们完成了，不需要我们在代码中硬编码指定下一个任务办理人了
+第七步： 流程结束
+当任务办理完成没有下一个任务/结点了，这个流程实例就完成了。
+
+
+1.Activiti的架构说明
+
+ProcessEngineConfiguration类,主要作用是加载activiti.cfg.xml配置文件
+
+ProcessEngine类 作用是帮助我们可以快速得到各个Service接口，并且可以生成activiti的工作环境 25张表生成
+
+Service接口          作用：可以快速实现数据25张表的操作。
+
+RepositoryService
+
+RuntimeService
+
+TaskService
+
+HistoryService
+
+
+
+2.用BPMN的ActivitiDesigner插件绘制流程定义图
+
+3.部署流程定义
+
+方式一：单个文件（bpmn文件，png文件）
+
+
+/**
+* 流程定义的部署
+* 影响的activiti表有哪些
+* act_re_deployment 部署信息
+* act_re_procdef    流程定义的一些信息
+* act_ge_bytearray  流程定义的bpmn文件以及png文件
+  */
+  public class ActivitiDeployment {
+  // 流程定义部署
+  public static void main(String[] args){
+  //1.创建ProcessEngine对象
+  ProcessEngine processEngine = ProcessEngines.getDefaultProcessEngine();
+
+       //2.得到RepositoryService实例
+       RepositoryService repositoryService = processEngine.getRepositoryService();
+
+       //3.进行部署
+       Deployment deployment = repositoryService.createDeployment()//创建Deployment对象
+               .addClasspathResource("diagram/holiday.bpmn")//添加bpmn文件
+               .addClasspathResource("diagram/holiday.png")//添加png文件
+               .name("请假申请单流程")
+               .deploy();//部署
+
+       //4.输出部署的一些信息
+       System.out.println(deployment.getName());
+       System.out.println(deployment.getId());
+  }
+  }
+ 
+
+
+方式二：先将bpmn文件和png文件压缩成zip文件。但是activiti最终也是以单个文件形式保存，说明activiti进行了解压工作。
+
+
+/**
+* Zip文件部署流程
+* 影响的activiti表有哪些
+*  act_re_deployment 部署信息
+*  act_re_procdef    流程定义的一些信息
+*  act_ge_bytearray  流程定义的bpmn文件以及png文件
+   */
+   public class ActivitiZipDeployment {
+   // 流程定义部署
+   public static void main(String[] args){
+   //1.创建ProcessEngine对象
+   ProcessEngine processEngine = ProcessEngines.getDefaultProcessEngine();
+
+       //2.得到RepositoryService实例
+       RepositoryService repositoryService = processEngine.getRepositoryService();
+       
+       //3.转换出ZipInputStream流对象
+       InputStream is = ActivitiZipDeployment.class.getClass().getClassLoader().getResourceAsStream("holidayBPMN.zip");
+
+       //将InputStream流转化为ZipInputStream
+       ZipInputStream zipInputStream = new ZipInputStream(is);
+
+       //3.进行部署
+       Deployment deployment = repositoryService.createDeployment()//创建Deployment对象
+               .addZipInputStream(zipInputStream)
+               .name("请假申请单流程")
+               .deploy();//部署
+
+       //4.输出部署的一些信息
+       System.out.println(deployment.getName());
+       System.out.println(deployment.getId());
+   }
+   }
+ 
+   4.启动流程实例：
+
+
+/**
+* 启动流程实例:
+*      前提是先已经完成流程定义的部署工作
+*
+*      背后影响的表：
+*      act_hi_actinst      已完成的活动信息
+*      act_hi_identitylink   参与者信息
+*      act_hi_procinst     流程实例
+*      act_hi_taskinst     任务实例
+*      act_ru_execution    执行表
+*      act_ru_identitylink   参与者信息
+*      act_ru_task   任务表
+*/
+public class ActivitiStartInstance {
+public static void main(String[] args) {
+//1.得到ProcessEngine对象
+ProcessEngine processEngine = ProcessEngines.getDefaultProcessEngine();
+//2.得到RunService对象
+RuntimeService runtimeService = processEngine.getRuntimeService();
+//3.创建流程实例(关键步骤)即 启动流程实例
+//需要知道流程定义的Key：holiday（找key的方法  1：bpmn文件中的id，它对应的值就是key
+// 2：直接看数据库中流程定义表act_re_procdet的key值）
+ProcessInstance processInstance = runtimeService.startProcessInstanceByKey("holiday");
+//4.输出实例的相关信息
+System.out.println("流程部署ID="+processInstance.getDeploymentId());//null
+System.out.println("流程定义ID="+processInstance.getProcessDefinitionId());//holiday:1:4
+System.out.println("流程实例ID="+processInstance.getId());//2501
+System.out.println("流程活动ID="+processInstance.getActivityId());//获取当前具体执行的某一个节点的ID(null)
+
+    }
+}
+
+5.查看任务
+
+TaskService　　　　taskService.createTaskQuery()
+
+
+/**
+* 查询当前用户的任务列表
+  */
+  public class ActivitiTaskQuery {
+  //lisi完成自己任务列表的查询
+  public static void main(String[] args) {
+  //1.得到ProcessEngine对象
+  ProcessEngine processEngine = ProcessEngines.getDefaultProcessEngine();
+
+       //2.得到TaskService对象
+       TaskService taskService = processEngine.getTaskService();
+       //3.根据流程定义的key以及负责人assignee来实现当前用户的任务列表查询
+       List<Task> taskList = taskService.createTaskQuery()
+               .processDefinitionKey("holiday")
+               .taskAssignee("lisi")
+               .list();//这里还有一个查询唯一结果的方法：singleResult();、还有分页查询listPage(index,limit);
+       //4.任务列表展示
+       for (Task task : taskList) {
+           //查的act_hi_procinst表的id
+           System.out.println("流程实例ID="+task.getProcessInstanceId());
+           //查的act_hi_taskinst表的id
+           System.out.println("任务ID="+task.getId());
+           //查的act_hi_taskinst表的Assignee_
+           System.out.println("任务负责人名称="+task.getAssignee());
+           //查的act_hi_taskinst表的NAME_
+           System.out.println("任务名称="+task.getName());
+       }
+  }
+  }
+  复制代码
+  6.完成任务
+
+TaskService　　　　taskService.complete(task.getId());//参数为任务ID
+
+
+/**
+* 处理当前用户的任务列表
+*  背后操作到的表：
+*           act_hi_actinst
+*           act_hi_identitylink
+*           act_hi_taskinst
+*           act_ru_execution
+*           act_ru_identitylink
+*           act_ru_task //只放当前要执行的任务
+*/
+public class ActivitiCompleteTask {
+/**
+* 李四完成自己的任务
+* @param args
+*/
+public static void main(String[] args) {
+//1.得到ProcessEngine对象
+ProcessEngine processEngine = ProcessEngines.getDefaultProcessEngine();
+
+        //2.得到TaskService对象
+        TaskService taskService = processEngine.getTaskService();
+
+        //3.处理任务,结合当前用户任务列表的查询操作的话，可以知道任务ID=5002(实际操作中应该与查询写在一起)
+        taskService.complete("5002");
+    }
+}
+
+
+
+环境准备：
+activiti 7
+jdk1.8
+开发IDE：IDEA2019.1.1
+mysql：5.7
+具体jar包依赖，日志配置 参考代码中的
+
 
 
 任务查询
 流程启动后，任务的负责人就可以查询自己当前需要处理的任务，查询出来的任务都是该用户的待办任务。
 
- 流程任务处理
-任务负责人查询待办任务，选择任务进行处理，完成任务。
-* 查询当前个人待执行的任务
-*/
-@Test
-public void testFindPersonalTaskList() {
-//    任务负责人
-String assignee = "zhangsan";
-ProcessEngine processEngine = ProcessEngines.getDefaultProcessEngine();
-//    创建TaskService
-TaskService taskService = processEngine.getTaskService();
-//    根据流程key 和 任务负责人 查询任务
-List<Task> list = taskService.createTaskQuery()
-.processDefinitionKey("myEvection") //流程Key
-.taskAssignee(assignee)//只查询该任务负责人的任务
-.list();
-for (Task task : list) {
-System.out.println("流程实例id：" + task.getProcessInstanceId());
-System.out.println("任务id：" + task.getId());
-System.out.println("任务负责人：" + task.getAssignee());
-System.out.println("任务名称：" + task.getName());
-}
-}
+二、个人任务
+2.1、分配任务负责人
+2.1.1、固定分配
+2.1.2、表达式分配
+并在 properties 视图中，填写 Assignee 项为任务负责人。
+由于固定分配方式，任务只管一步一步执行任务，执行到每一个任务将按照 bpmn 的配置去分配任 务负责人。
+2.1.2.1、UEL 表达式
+Activiti 使用 UEL 表达式， UEL 是 java EE6 规范的一部分， UEL（Unified Expression Language）即 统一表达式语言，
+activiti 支持两个 UEL 表达式： UEL-value 和 UEL-method。
+
+设置任务候选人
+下一级任务的审批人

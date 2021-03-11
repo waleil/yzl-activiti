@@ -13,6 +13,8 @@ import org.activiti.api.task.model.builders.TaskPayloadBuilder;
 import org.activiti.api.task.runtime.TaskRuntime;
 import org.activiti.engine.ProcessEngine;
 import org.activiti.engine.ProcessEngines;
+import org.activiti.engine.RepositoryService;
+import org.activiti.engine.repository.Deployment;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,7 +42,7 @@ public class TestActiviti {
      */
     @Test
     public void findProcess(){
-        securityUtil.logInAs("jack");
+        securityUtil.logInAs("system");
         //流程定义的分页对象
         Page<ProcessDefinition> definitionPage = processRuntime.processDefinitions(Pageable.of(0, 10));
         log.info("可用的流程定义总数：{}",definitionPage.getTotalItems());
@@ -56,7 +58,7 @@ public class TestActiviti {
      */
     @Test
     public void startProcess(){
-        //设置登录用户 根据流程key获取当前流程实例 构建 system 启动流程 myEvection
+        //设置登录用户 根据流程key获取当前流程实例 构建
         securityUtil.logInAs("system");
         ProcessInstance processInstance = processRuntime.
                 start(ProcessPayloadBuilder.
@@ -69,7 +71,7 @@ public class TestActiviti {
     /**完成任务*/
     @Test
     public void completeTask(){
-        String taskID = "303564af-8242-11eb-9771-18c04d47ad75";
+        String taskID = "17372a98-8239-11eb-9585-5c80b6daeef9";
         // 1、创建ProcessEngine
         ProcessEngine processEngine = ProcessEngines.getDefaultProcessEngine();
         processEngine.getTaskService().complete(taskID);

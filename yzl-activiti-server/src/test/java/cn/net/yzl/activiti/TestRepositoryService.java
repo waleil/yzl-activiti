@@ -45,7 +45,7 @@ public class TestRepositoryService {
             //classpath方式
             Deployment deploy = repositoryService.createDeployment()
                     .name("请假申请流程")
-                    .addClasspathResource("processes/evection.bpmn")
+                    .addClasspathResource("processes/evection-parallel.bpmn")
                     .addClasspathResource("processes/evection.png")
                     .deploy();
 
