@@ -1,12 +1,15 @@
 package cn.net.yzl.activiti;
 
+import com.alibaba.fastjson.JSON;
 import lombok.extern.slf4j.Slf4j;
 import org.activiti.engine.ProcessEngine;
 import org.activiti.engine.ProcessEngines;
 import org.activiti.engine.RepositoryService;
 import org.activiti.engine.repository.Deployment;
+import org.activiti.engine.repository.DeploymentQuery;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
@@ -24,6 +27,8 @@ import java.util.zip.ZipInputStream;
 @SpringBootTest
 public class TestRepositoryService {
 
+    @Autowired
+    private RepositoryService repositoryService;
     /**
      * 流程部署
      */
@@ -77,7 +82,15 @@ public class TestRepositoryService {
         } catch (Exception e) {
 
         }
+    }
 
+    /**
+     * 获取流程列表
+     */
+    @Test
+    public void testDeployment1() {
+        List<Deployment> list = repositoryService.createDeploymentQuery().list();
+        System.out.println(list);
     }
 
 }

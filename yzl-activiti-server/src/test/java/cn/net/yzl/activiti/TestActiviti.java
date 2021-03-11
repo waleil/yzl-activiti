@@ -13,8 +13,6 @@ import org.activiti.api.task.model.builders.TaskPayloadBuilder;
 import org.activiti.api.task.runtime.TaskRuntime;
 import org.activiti.engine.ProcessEngine;
 import org.activiti.engine.ProcessEngines;
-import org.activiti.engine.RepositoryService;
-import org.activiti.engine.repository.Deployment;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -58,7 +56,7 @@ public class TestActiviti {
      */
     @Test
     public void startProcess(){
-        //设置登录用户 根据流程key获取当前流程实例 构建
+        //设置登录用户 根据流程key获取当前流程实例 构建 system 启动流程 myEvection
         securityUtil.logInAs("system");
         ProcessInstance processInstance = processRuntime.
                 start(ProcessPayloadBuilder.
@@ -71,7 +69,7 @@ public class TestActiviti {
     /**完成任务*/
     @Test
     public void completeTask(){
-        String taskID = "a0a6248f-81a2-11eb-99ec-18c04d47ad75";
+        String taskID = "303564af-8242-11eb-9771-18c04d47ad75";
         // 1、创建ProcessEngine
         ProcessEngine processEngine = ProcessEngines.getDefaultProcessEngine();
         processEngine.getTaskService().complete(taskID);
