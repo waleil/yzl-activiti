@@ -112,6 +112,8 @@ act_hi_procinst 历史的流程实例     select * from act_hi_procinst ;
 
 act_hi_taskinst 历史的任务实例 select * from act_hi_taskinst;
 
+act_hi_detail activiti默认属性是audit，只有设置成full时才产生细节数据
+
 act_ru_identitylink 运行时用户关系信息，存储任务节点与参与者 select * from act_ru_identitylink;
 
 act_ru_task 任务表   select * from act_ru_task ;
@@ -147,6 +149,14 @@ act_ru_task 任务表   select * from act_ru_task ;
 
 6. 解决bpmn乱码问题
 -Dfile.encoding=UTF-8
+   
+
+7. historyService 使用
+主要查询历史记录信息 act_hi_actinst、 act_hi_procinst、 act_hi_taskinst、 act_ru_task
+用户可以查看当前任务
+
+
+
 
 线性审批（单线路审批）
 
