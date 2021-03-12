@@ -41,7 +41,7 @@ public class TestActiviti {
      * Activiti7可以自动部署流程
      */
     @Test
-    public void findProcess(){
+    public void findProcessDefinitions(){
         securityUtil.logInAs("system");
         //流程定义的分页对象
         Page<ProcessDefinition> definitionPage = processRuntime.processDefinitions(Pageable.of(0, 10));
@@ -49,6 +49,23 @@ public class TestActiviti {
         for (ProcessDefinition processDefinition : definitionPage.getContent()) {
             System.out.println("==============================");
             log.info("流程定义内容：{}",processDefinition);
+            System.out.println("==============================");
+        }
+    }
+
+    /**
+     * 查看流程实例内容
+     * Activiti7可以自动部署流程
+     */
+    @Test
+    public void findProcessInstances(){
+        securityUtil.logInAs("system");
+        //流程定义的分页对象
+        Page<ProcessInstance> processInstancePage = processRuntime.processInstances(Pageable.of(0, 10));
+        log.info("可用的流程实例总数：{}",processInstancePage.getTotalItems());
+        for (ProcessInstance processInstance : processInstancePage.getContent()) {
+            System.out.println("==============================");
+            log.info("流程实例内容：{}",processInstance);
             System.out.println("==============================");
         }
     }

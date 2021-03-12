@@ -7,6 +7,7 @@ import org.activiti.engine.ProcessEngines;
 import org.activiti.engine.RepositoryService;
 import org.activiti.engine.repository.Deployment;
 import org.activiti.engine.repository.DeploymentQuery;
+import org.activiti.engine.repository.ProcessDefinition;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,17 +36,13 @@ public class TestRepositoryService {
     @Test
     public void testDeployment(){
         try {
-            // 1、创建ProcessEngine
-            ProcessEngine processEngine = ProcessEngines.getDefaultProcessEngine();
-            // 2、获取RepositoryServcie
-            RepositoryService repositoryService = processEngine.getRepositoryService();
             // 3、使用service进行流程的部署，定义一个流程的名字，把bpmn和png部署到数据中
             //有三种方式加载
 
             //classpath方式
             Deployment deploy = repositoryService.createDeployment()
                     .name("请假申请流程")
-                    .addClasspathResource("processes/evection-parallel.bpmn")
+                    .addClasspathResource("processes/evection.bpmn")
                     .addClasspathResource("processes/evection.png")
                     .deploy();
 
@@ -80,17 +77,34 @@ public class TestRepositoryService {
             System.out.println("流程部署id="+deploy.getId());
             System.out.println("流程部署名字="+deploy.getName());
         } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
+    //查询流程
+    @Test
+    public void getDefinitions(){
+        List<ProcessDefinition> list = repositoryService.createProcessDefinitionQuery().deploymentId("9cf9c0fb-82e4-11eb-912b-18c04d47ad75")
+                .list();
+        for(ProcessDefinition pd : list){
+            System.out.println("------流程--------");
+            System.out.println("Name："+pd.getName());
+            System.out.println("Key："+pd.getKey());
+            System.out.println("ResourceName："+pd.getResourceName());
+            System.out.println("DeploymentId："+pd.getDeploymentId());
+            System.out.println("Version："+pd.getVersion());
+            System.out.println("ResourceName："+pd.getResourceName());
+            System.out.println("diagramResourceName："+pd.getDiagramResourceName());
+            System.out.println("category："+pd.getCategory());
+            System.out.println("TenantId："+pd.getTenantId());
         }
     }
 
     /**
-     * 获取流程列表
+     * 删除流程 参数 id
      */
     @Test
-    public void testDeployment1() {
-        List<Deployment> list = repositoryService.createDeploymentQuery().list();
-        System.out.println(list);
+    public void deleteDeployment() {
+        repositoryService.deleteDeployment("e250ad98-82e2-11eb-9f71-18c04d47ad75");
     }
-
 }
