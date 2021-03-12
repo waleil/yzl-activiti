@@ -2,7 +2,7 @@ ProcessEngine 流程引擎
 
 
 
-1. 创建流程。
+1. 创建流程。  创建流程 编辑流程 查看流程 删除流程 把bpmn文件保存到对应表即可 
 定义bpmn流程文件，定义流程节点。
    
 bpmn生成方式（3种）
@@ -67,8 +67,42 @@ act_ge_bytearray 通用的流程定义和流程资源
 
 act_re_procdef 已部署的流程定义
 
-3. 查询流程内容
+
+3. 加载流程实例  流程挂起 流程激活 查看流程实例 删除流程实例 流程实例相关表不会删除 会有结束时间
 ```
+    /**
+     * 初始化流程实例
+     */
+    @Test
+    public void initProcessInstance(){
+        try {
+            //1、获取页面表单填报的内容，请假时间，请假事由，String fromData
+            //2、fromData 写入业务表，返回业务表主键ID==businessKey
+            //3、把业务数据与Activiti7流程数据关联
+            //第一个参数：是指流程定义key
+            //第二个参数：业务标识businessKey
+            ProcessInstance processInstance = runtimeService.startProcessInstanceByKey("myEvection","bKey001");
+            System.out.println("流程实例ID："+processInstance.getProcessDefinitionId());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    
+    /**
+     * 启动流程
+     */
+    @Test
+    public void startProcess(){
+        //设置登录用户 根据流程key获取当前流程实例 构建
+        securityUtil.logInAs("system");
+        ProcessInstance processInstance = processRuntime.
+                start(ProcessPayloadBuilder.
+                        start().
+                        withProcessDefinitionKey("myEvection").
+                        build());
+        log.info("流程实例的内容，{}",processInstance);
+    }
+
     /**
      * 查看流程定义内容
      * Activiti7可以自动部署流程
@@ -86,23 +120,7 @@ act_re_procdef 已部署的流程定义
         }
     }
 ```
-4. 启动流程
-```
-    /**
-     * 启动流程
-     */
-    @Test
-    public void startProcess(){
-        //设置登录用户
-        securityUtil.logInAs("system");
-        ProcessInstance processInstance = processRuntime.
-                start(ProcessPayloadBuilder.
-                        start().
-                        withProcessDefinitionKey("mydemo").
-                        build());
-        log.info("流程实例的内容，{}",processInstance);
-    }
-```
+
 表操作
 act_hi_actinst 历史的流程实例 select * from act_hi_actinst;
 
@@ -112,40 +130,26 @@ act_hi_procinst 历史的流程实例     select * from act_hi_procinst ;
 
 act_hi_taskinst 历史的任务实例 select * from act_hi_taskinst;
 
-act_hi_detail activiti默认属性是audit，只有设置成full时才产生细节数据
-
 act_ru_identitylink 运行时用户关系信息，存储任务节点与参与者 select * from act_ru_identitylink;
 
 act_ru_task 任务表   select * from act_ru_task ;
 
+act_hi_detail activiti默认属性是audit，只有设置成full时才产生细节数据
+
 5. 执行任务
 ```
-    /**
-     * 执行任务
-     */
+    /**完成任务*/
     @Test
-    public void doTask(){
-        //设置登录用户
-        securityUtil.logInAs("jerry");
-        //查询任务
-        Page<Task> taskPage = taskRuntime.tasks(Pageable.of(0, 10));
-        if(taskPage != null && taskPage.getTotalItems()>0){
-            for (Task task : taskPage.getContent()) {
-                //        拾取任务
-                taskRuntime.claim(TaskPayloadBuilder.
-                        claim().
-                        withTaskId(task.getId()).
-                        build());
-                log.info("任务内容,{}",task);
-                //        完成任务
-                taskRuntime.complete(TaskPayloadBuilder.
-                        complete().
-                        withTaskId(task.getId()).
-                        build());
-            }
-        }
+    public void completeTask(){
+        String taskID = "c47c1343-8267-11eb-aace-18c04d47ad75";
+        // 1、创建ProcessEngine
+        ProcessEngine processEngine = ProcessEngines.getDefaultProcessEngine();
+        processEngine.getTaskService().complete(taskID);
+        System.out.println("完成任务："+taskID);
     }
 ```
+
+
 
 6. 解决bpmn乱码问题
 -Dfile.encoding=UTF-8
@@ -154,8 +158,6 @@ act_ru_task 任务表   select * from act_ru_task ;
 7. historyService 使用
 主要查询历史记录信息 act_hi_actinst、 act_hi_procinst、 act_hi_taskinst、 act_ru_task
 用户可以查看当前任务
-
-
 
 
 线性审批（单线路审批）
