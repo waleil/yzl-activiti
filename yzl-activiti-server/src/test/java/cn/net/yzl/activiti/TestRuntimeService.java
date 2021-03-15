@@ -61,11 +61,11 @@ public class TestRuntimeService {
      */
     @Test
     public void activitieProcessInstance(){
-        runtimeService.suspendProcessInstanceById("c522dc93-82e5-11eb-b6b4-18c04d47ad75");
-        System.out.println("挂起流程实例");
+//        runtimeService.suspendProcessInstanceById("c522dc93-82e5-11eb-b6b4-18c04d47ad75");
+//        System.out.println("挂起流程实例");
 
-//        runtimeService.activateProcessInstanceById("44ceb179-82da-11eb-9ab4-18c04d47ad75");
-//        System.out.println("激活流程实例");
+        runtimeService.activateProcessInstanceById("c522dc93-82e5-11eb-b6b4-18c04d47ad75");
+        System.out.println("激活流程实例");
     }
 
     /**

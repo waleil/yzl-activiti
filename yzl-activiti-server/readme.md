@@ -149,13 +149,19 @@ act_hi_detail activiti默认属性是audit，只有设置成full时才产生细�
     }
 ```
 
+6. 实现转交的方式
+第一种 配置变量 使用$ 或者# 配置ASSIGNEE_
+   
+第二种 利用监听
+
+7. 挂起的流程实例不能继续执行任务 可以查看
 
 
-6. 解决bpmn乱码问题
+8. 解决bpmn乱码问题
 -Dfile.encoding=UTF-8
    
 
-7. historyService 使用
+9. historyService 使用
 主要查询历史记录信息 act_hi_actinst、 act_hi_procinst、 act_hi_taskinst、 act_ru_task
 用户可以查看当前任务
 

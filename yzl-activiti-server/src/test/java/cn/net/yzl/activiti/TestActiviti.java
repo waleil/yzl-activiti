@@ -13,8 +13,6 @@ import org.activiti.api.task.model.builders.TaskPayloadBuilder;
 import org.activiti.api.task.runtime.TaskRuntime;
 import org.activiti.engine.ProcessEngine;
 import org.activiti.engine.ProcessEngines;
-import org.activiti.engine.RepositoryService;
-import org.activiti.engine.repository.Deployment;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -80,7 +78,7 @@ public class TestActiviti {
         ProcessInstance processInstance = processRuntime.
                 start(ProcessPayloadBuilder.
                         start().
-                        withProcessDefinitionKey("myEvection").
+                        withProcessDefinitionKey("myEvection").withBusinessKey("bKey001").
                         build());
         log.info("流程实例的内容，{}",processInstance);
     }
@@ -91,7 +89,7 @@ public class TestActiviti {
         String taskID = "c47c1343-8267-11eb-aace-18c04d47ad75";
         // 1、创建ProcessEngine
         ProcessEngine processEngine = ProcessEngines.getDefaultProcessEngine();
-        processEngine.getTaskService().complete(taskID);
+        processEngine.getTaskService().complete(taskID, null, false);
         System.out.println("完成任务："+taskID);
     }
 

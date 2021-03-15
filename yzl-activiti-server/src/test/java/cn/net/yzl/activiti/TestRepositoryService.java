@@ -31,7 +31,7 @@ public class TestRepositoryService {
     @Autowired
     private RepositoryService repositoryService;
     /**
-     * 流程部署
+     * 流程定义
      */
     @Test
     public void testDeployment(){
@@ -84,7 +84,7 @@ public class TestRepositoryService {
     //查询流程
     @Test
     public void getDefinitions(){
-        List<ProcessDefinition> list = repositoryService.createProcessDefinitionQuery().deploymentId("9cf9c0fb-82e4-11eb-912b-18c04d47ad75")
+        List<ProcessDefinition> list = repositoryService.createProcessDefinitionQuery().deploymentId("8f0c855b-8537-11eb-bdae-005056c00001")
                 .list();
         for(ProcessDefinition pd : list){
             System.out.println("------流程--------");
@@ -93,10 +93,8 @@ public class TestRepositoryService {
             System.out.println("ResourceName："+pd.getResourceName());
             System.out.println("DeploymentId："+pd.getDeploymentId());
             System.out.println("Version："+pd.getVersion());
-            System.out.println("ResourceName："+pd.getResourceName());
             System.out.println("diagramResourceName："+pd.getDiagramResourceName());
             System.out.println("category："+pd.getCategory());
-            System.out.println("TenantId："+pd.getTenantId());
         }
     }
 
@@ -105,6 +103,6 @@ public class TestRepositoryService {
      */
     @Test
     public void deleteDeployment() {
-        repositoryService.deleteDeployment("e250ad98-82e2-11eb-9f71-18c04d47ad75");
+        repositoryService.deleteDeployment("8f0c855b-8537-11eb-bdae-005056c00001");
     }
 }

@@ -1,7 +1,13 @@
 package cn.net.yzl.activiti;
 
+import cn.net.yzl.activiti.config.SecurityUtil;
 import com.alibaba.fastjson.JSON;
 import lombok.extern.slf4j.Slf4j;
+import org.activiti.api.runtime.shared.query.Page;
+import org.activiti.api.runtime.shared.query.Pageable;
+import org.activiti.api.task.model.Task;
+import org.activiti.api.task.model.builders.TaskPayloadBuilder;
+import org.activiti.api.task.runtime.TaskRuntime;
 import org.activiti.engine.*;
 import org.activiti.engine.history.HistoricActivityInstance;
 import org.activiti.engine.history.HistoricProcessInstance;
@@ -33,6 +39,12 @@ public class TestHistoryService {
 
     @Autowired
     private RepositoryService repositoryService;
+
+    @Autowired
+    private SecurityUtil securityUtil;
+
+    @Autowired
+    private TaskRuntime taskRuntime;
 
     /**
      * 主要获取act_hi_procinst表中流程实例属性信息
@@ -69,6 +81,28 @@ public class TestHistoryService {
         List<HistoricTaskInstance> list = historyService.createHistoricTaskInstanceQuery().processInstanceId("30316d0a-8242-11eb-9771-18c04d47ad75").list();
         System.out.println("根据流程id获取历史记录：" + JSON.toJSONString(list));
     }
+
+    @Test
+    public void TaskComplete() {
+        securityUtil.logInAs("zhangsan");
+
+        Page<Task> tasks = taskRuntime.tasks(Pageable.of(0, 10));
+
+        // No tasks are returned
+        System.out.println(">  zhangsan的任务数量: " + tasks.getTotalItems());
+
+        for(Task task:tasks.getContent()){
+            System.out.println("任务："+task);
+            System.out.println("任务执行人："+task.getAssignee());
+
+//            if(task.getAssignee()==null){
+//                taskRuntime.claim(TaskPayloadBuilder.claim().withTaskId(task.getId()).build());
+//            }
+            taskRuntime.complete(TaskPayloadBuilder.complete().withTaskId(task.getId()).build());
+        }
+
+    }
+
 
     //根据用户名查询历史记录
     @Test
