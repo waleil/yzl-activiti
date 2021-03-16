@@ -16,6 +16,21 @@ public class ActBpmnFile implements Serializable {
     private Long id;
 
     /**
+     * 流程名称
+     */
+    private String processName;
+
+    /**
+     * 审批类型
+     */
+    private String approvalType;
+
+    /**
+     * 事件
+     */
+    private String event;
+
+    /**
      * 文件名称
      */
     private String fileName;

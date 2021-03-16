@@ -9,5 +9,6 @@ import org.springframework.stereotype.Repository;
  * ActBpmnFileDAO继承基类
  */
 @Mapper
+@Repository
 public interface ActBpmnFileDAO extends MyBatisBaseDao<ActBpmnFile, Long, ActBpmnFileExample> {
 }

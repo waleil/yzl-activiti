@@ -1,5 +1,6 @@
 package cn.net.yzl.activiti.service;
 
+import cn.net.yzl.activiti.model.vo.CreateProcessVO;
 import cn.net.yzl.common.entity.ComResponse;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -14,9 +15,9 @@ public interface IProcessDefinitionService {
     /**
      * 流程图上传
      * @param multipartFile
-     * @param userName
+     * @param createProcessVO
      */
-    ComResponse fileUpload(MultipartFile multipartFile, String userName);
+    ComResponse fileUpload(MultipartFile multipartFile, CreateProcessVO createProcessVO);
 
     /**
      * 查询流程
@@ -24,4 +25,10 @@ public interface IProcessDefinitionService {
      */
     ComResponse getProcessDefinitionList();
 
+    /**
+     * 发布流程
+     * @param fileId
+     * @return
+     */
+    ComResponse pushProcessDefinition(Long fileId);
 }

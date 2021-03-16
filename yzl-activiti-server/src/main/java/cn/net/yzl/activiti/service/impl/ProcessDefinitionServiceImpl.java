@@ -4,21 +4,28 @@ import cn.net.yzl.activiti.dao.ActBpmnFileDAO;
 import cn.net.yzl.activiti.domain.entity.ActBpmnFile;
 import cn.net.yzl.activiti.enums.FileStatusEnum;
 import cn.net.yzl.activiti.enums.FileTypeEnum;
+import cn.net.yzl.activiti.model.dto.ProcessDefinitionDTO;
+import cn.net.yzl.activiti.model.vo.CreateProcessVO;
 import cn.net.yzl.activiti.service.IProcessDefinitionService;
 import cn.net.yzl.common.entity.ComResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.activiti.engine.RepositoryService;
+import org.activiti.engine.repository.Deployment;
 import org.activiti.engine.repository.ProcessDefinition;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.ClassUtils;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
 import java.io.File;
+import java.io.FileInputStream;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -41,20 +48,21 @@ public class ProcessDefinitionServiceImpl implements IProcessDefinitionService {
     }
 
     @Override
-    public ComResponse fileUpload(MultipartFile multipartFile, String userName) {
+    public ComResponse fileUpload(MultipartFile multipartFile, CreateProcessVO createProcessVO) {
         try {
-            // 文件名
             String fileName = multipartFile.getOriginalFilename();
             // 后缀名
             String suffixName = fileName.substring(fileName.lastIndexOf("."));
+            String programPath = ClassUtils.getDefaultClassLoader().getResource("").getPath();
             // 上传后的路径
-            String filePath = "/processes/";
+            String filePath = "processes/";
 
             //本地路径格式转上传路径格式
             filePath = filePath.replace("\\", "/");
             // 新文件名
             fileName = UUID.randomUUID() + suffixName;
-            File file = new File(filePath + fileName);
+            filePath = programPath + filePath + fileName;
+            File file = new File(filePath);
             if (!file.getParentFile().exists()) {
                 file.getParentFile().mkdirs();
             }
@@ -66,31 +74,57 @@ public class ProcessDefinitionServiceImpl implements IProcessDefinitionService {
             actBpmnFile.setFileStatus(FileStatusEnum.NORMAL.getCode().byteValue());
             actBpmnFile.setFileType(FileTypeEnum.matcher(suffixName).getCode().byteValue());
             actBpmnFile.setCreateTime(new Date());
-            actBpmnFile.setCreater(userName);
-            int sum = actBpmnFileDAO.insertSelective(actBpmnFile);
-            if (sum > 0) {
-                return new ComResponse().setCode(ComResponse.SUCCESS_STATUS);
-            }
-            log.error("流程上传失败, 插入数据库失败");
-            return new ComResponse().setCode(ComResponse.ERROR_STATUS);
+            actBpmnFile.setApprovalType(createProcessVO.getApprovalType());
+            actBpmnFile.setEvent(createProcessVO.getEvent());
+            actBpmnFile.setProcessName(createProcessVO.getProcessName());
+            actBpmnFile.setCreater(createProcessVO.getUserName());
+            Integer id = actBpmnFileDAO.insertSelective(actBpmnFile);
+            return ComResponse.success(ComResponse.SUCCESS_STATUS, null, "成功", id);
         } catch (Exception e) {
             log.error("流程上传失败, 失败原因：{}", e.getStackTrace());
+            e.printStackTrace();
             return new ComResponse().setCode(ComResponse.ERROR_STATUS);
         }
     }
 
     @Override
-    public ComResponse<List<ProcessDefinition>> getProcessDefinitionList() {
+    public ComResponse<List<ProcessDefinitionDTO>> getProcessDefinitionList() {
         try {
             List<ProcessDefinition> processDefinitionList = repositoryService.createProcessDefinitionQuery().list();
-            if (CollectionUtils.isEmpty(processDefinitionList)) {
-                return ComResponse.success();
-            }
-            return ComResponse.success(processDefinitionList);
 
+            List<ProcessDefinitionDTO> collect = new ArrayList<>();
+            if (!CollectionUtils.isEmpty(processDefinitionList)) {
+                collect = processDefinitionList.stream().map(processDefinition -> {
+                    ProcessDefinitionDTO processDefinitionDTO = new ProcessDefinitionDTO();
+                    processDefinitionDTO.setId(processDefinition.getDeploymentId());
+                    processDefinitionDTO.setName(processDefinition.getName());
+                    return processDefinitionDTO;
+                }).collect(Collectors.toList());
+            }
+
+            return ComResponse.success(collect);
         } catch (Exception e) {
             e.printStackTrace();
         }
         return ComResponse.success();
+    }
+
+    @Override
+    public ComResponse pushProcessDefinition(Long fileId) {
+
+        try {
+            ActBpmnFile actBpmnFile = actBpmnFileDAO.selectByPrimaryKey(fileId);
+            File file = new File(actBpmnFile.getFilePath());
+            FileInputStream fis = new FileInputStream(file);
+            //inputstream方式
+            Deployment deploy = repositoryService.createDeployment()
+                    .name(actBpmnFile.getProcessName())
+                    .addInputStream(actBpmnFile.getProcessName(), fis)
+                    .deploy();
+            return new ComResponse().setCode(ComResponse.SUCCESS_STATUS);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ComResponse().setCode(ComResponse.ERROR_STATUS);
+        }
     }
 }

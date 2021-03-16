@@ -165,6 +165,216 @@ public class ActBpmnFileExample {
             return (Criteria) this;
         }
 
+        public Criteria andProcessNameIsNull() {
+            addCriterion("process_name is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andProcessNameIsNotNull() {
+            addCriterion("process_name is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andProcessNameEqualTo(String value) {
+            addCriterion("process_name =", value, "processName");
+            return (Criteria) this;
+        }
+
+        public Criteria andProcessNameNotEqualTo(String value) {
+            addCriterion("process_name <>", value, "processName");
+            return (Criteria) this;
+        }
+
+        public Criteria andProcessNameGreaterThan(String value) {
+            addCriterion("process_name >", value, "processName");
+            return (Criteria) this;
+        }
+
+        public Criteria andProcessNameGreaterThanOrEqualTo(String value) {
+            addCriterion("process_name >=", value, "processName");
+            return (Criteria) this;
+        }
+
+        public Criteria andProcessNameLessThan(String value) {
+            addCriterion("process_name <", value, "processName");
+            return (Criteria) this;
+        }
+
+        public Criteria andProcessNameLessThanOrEqualTo(String value) {
+            addCriterion("process_name <=", value, "processName");
+            return (Criteria) this;
+        }
+
+        public Criteria andProcessNameLike(String value) {
+            addCriterion("process_name like", value, "processName");
+            return (Criteria) this;
+        }
+
+        public Criteria andProcessNameNotLike(String value) {
+            addCriterion("process_name not like", value, "processName");
+            return (Criteria) this;
+        }
+
+        public Criteria andProcessNameIn(List<String> values) {
+            addCriterion("process_name in", values, "processName");
+            return (Criteria) this;
+        }
+
+        public Criteria andProcessNameNotIn(List<String> values) {
+            addCriterion("process_name not in", values, "processName");
+            return (Criteria) this;
+        }
+
+        public Criteria andProcessNameBetween(String value1, String value2) {
+            addCriterion("process_name between", value1, value2, "processName");
+            return (Criteria) this;
+        }
+
+        public Criteria andProcessNameNotBetween(String value1, String value2) {
+            addCriterion("process_name not between", value1, value2, "processName");
+            return (Criteria) this;
+        }
+
+        public Criteria andApprovalTypeIsNull() {
+            addCriterion("approval_type is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andApprovalTypeIsNotNull() {
+            addCriterion("approval_type is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andApprovalTypeEqualTo(String value) {
+            addCriterion("approval_type =", value, "approvalType");
+            return (Criteria) this;
+        }
+
+        public Criteria andApprovalTypeNotEqualTo(String value) {
+            addCriterion("approval_type <>", value, "approvalType");
+            return (Criteria) this;
+        }
+
+        public Criteria andApprovalTypeGreaterThan(String value) {
+            addCriterion("approval_type >", value, "approvalType");
+            return (Criteria) this;
+        }
+
+        public Criteria andApprovalTypeGreaterThanOrEqualTo(String value) {
+            addCriterion("approval_type >=", value, "approvalType");
+            return (Criteria) this;
+        }
+
+        public Criteria andApprovalTypeLessThan(String value) {
+            addCriterion("approval_type <", value, "approvalType");
+            return (Criteria) this;
+        }
+
+        public Criteria andApprovalTypeLessThanOrEqualTo(String value) {
+            addCriterion("approval_type <=", value, "approvalType");
+            return (Criteria) this;
+        }
+
+        public Criteria andApprovalTypeLike(String value) {
+            addCriterion("approval_type like", value, "approvalType");
+            return (Criteria) this;
+        }
+
+        public Criteria andApprovalTypeNotLike(String value) {
+            addCriterion("approval_type not like", value, "approvalType");
+            return (Criteria) this;
+        }
+
+        public Criteria andApprovalTypeIn(List<String> values) {
+            addCriterion("approval_type in", values, "approvalType");
+            return (Criteria) this;
+        }
+
+        public Criteria andApprovalTypeNotIn(List<String> values) {
+            addCriterion("approval_type not in", values, "approvalType");
+            return (Criteria) this;
+        }
+
+        public Criteria andApprovalTypeBetween(String value1, String value2) {
+            addCriterion("approval_type between", value1, value2, "approvalType");
+            return (Criteria) this;
+        }
+
+        public Criteria andApprovalTypeNotBetween(String value1, String value2) {
+            addCriterion("approval_type not between", value1, value2, "approvalType");
+            return (Criteria) this;
+        }
+
+        public Criteria andEventIsNull() {
+            addCriterion("event is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andEventIsNotNull() {
+            addCriterion("event is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andEventEqualTo(String value) {
+            addCriterion("event =", value, "event");
+            return (Criteria) this;
+        }
+
+        public Criteria andEventNotEqualTo(String value) {
+            addCriterion("event <>", value, "event");
+            return (Criteria) this;
+        }
+
+        public Criteria andEventGreaterThan(String value) {
+            addCriterion("event >", value, "event");
+            return (Criteria) this;
+        }
+
+        public Criteria andEventGreaterThanOrEqualTo(String value) {
+            addCriterion("event >=", value, "event");
+            return (Criteria) this;
+        }
+
+        public Criteria andEventLessThan(String value) {
+            addCriterion("event <", value, "event");
+            return (Criteria) this;
+        }
+
+        public Criteria andEventLessThanOrEqualTo(String value) {
+            addCriterion("event <=", value, "event");
+            return (Criteria) this;
+        }
+
+        public Criteria andEventLike(String value) {
+            addCriterion("event like", value, "event");
+            return (Criteria) this;
+        }
+
+        public Criteria andEventNotLike(String value) {
+            addCriterion("event not like", value, "event");
+            return (Criteria) this;
+        }
+
+        public Criteria andEventIn(List<String> values) {
+            addCriterion("event in", values, "event");
+            return (Criteria) this;
+        }
+
+        public Criteria andEventNotIn(List<String> values) {
+            addCriterion("event not in", values, "event");
+            return (Criteria) this;
+        }
+
+        public Criteria andEventBetween(String value1, String value2) {
+            addCriterion("event between", value1, value2, "event");
+            return (Criteria) this;
+        }
+
+        public Criteria andEventNotBetween(String value1, String value2) {
+            addCriterion("event not between", value1, value2, "event");
+            return (Criteria) this;
+        }
+
         public Criteria andFileNameIsNull() {
             addCriterion("file_name is null");
             return (Criteria) this;
