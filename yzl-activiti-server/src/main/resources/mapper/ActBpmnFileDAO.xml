@@ -13,6 +13,7 @@
     <result column="file_status" jdbcType="TINYINT" property="fileStatus" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="creater" jdbcType="VARCHAR" property="creater" />
+    <result column="deleted" jdbcType="TINYINT" property="deleted" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -74,7 +75,7 @@
   </sql>
   <sql id="Base_Column_List">
     id, process_id, process_name, approval_type, event, file_name, file_path, file_type, 
-    file_status, create_time, creater
+    file_status, create_time, creater, deleted
   </sql>
   <select id="selectByExample" parameterType="cn.net.yzl.activiti.domain.entity.ActBpmnFileExample" resultMap="BaseResultMap">
     select
@@ -110,11 +111,11 @@
     insert into act_bpmn_file (process_id, process_name, approval_type, 
       event, file_name, file_path, 
       file_type, file_status, create_time, 
-      creater)
+      creater, deleted)
     values (#{processId,jdbcType=VARCHAR}, #{processName,jdbcType=VARCHAR}, #{approvalType,jdbcType=VARCHAR}, 
       #{event,jdbcType=VARCHAR}, #{fileName,jdbcType=VARCHAR}, #{filePath,jdbcType=VARCHAR}, 
       #{fileType,jdbcType=TINYINT}, #{fileStatus,jdbcType=TINYINT}, #{createTime,jdbcType=TIMESTAMP}, 
-      #{creater,jdbcType=VARCHAR})
+      #{creater,jdbcType=VARCHAR}, #{deleted,jdbcType=TINYINT})
   </insert>
   <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="cn.net.yzl.activiti.domain.entity.ActBpmnFile" useGeneratedKeys="true">
     insert into act_bpmn_file
@@ -149,6 +150,9 @@
       <if test="creater != null">
         creater,
       </if>
+      <if test="deleted != null">
+        deleted,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="processId != null">
@@ -180,6 +184,9 @@
       </if>
       <if test="creater != null">
         #{creater,jdbcType=VARCHAR},
+      </if>
+      <if test="deleted != null">
+        #{deleted,jdbcType=TINYINT},
       </if>
     </trim>
   </insert>
@@ -225,6 +232,9 @@
       <if test="record.creater != null">
         creater = #{record.creater,jdbcType=VARCHAR},
       </if>
+      <if test="record.deleted != null">
+        deleted = #{record.deleted,jdbcType=TINYINT},
+      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -242,7 +252,8 @@
       file_type = #{record.fileType,jdbcType=TINYINT},
       file_status = #{record.fileStatus,jdbcType=TINYINT},
       create_time = #{record.createTime,jdbcType=TIMESTAMP},
-      creater = #{record.creater,jdbcType=VARCHAR}
+      creater = #{record.creater,jdbcType=VARCHAR},
+      deleted = #{record.deleted,jdbcType=TINYINT}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -280,6 +291,9 @@
       <if test="creater != null">
         creater = #{creater,jdbcType=VARCHAR},
       </if>
+      <if test="deleted != null">
+        deleted = #{deleted,jdbcType=TINYINT},
+      </if>
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
@@ -294,7 +308,8 @@
       file_type = #{fileType,jdbcType=TINYINT},
       file_status = #{fileStatus,jdbcType=TINYINT},
       create_time = #{createTime,jdbcType=TIMESTAMP},
-      creater = #{creater,jdbcType=VARCHAR}
+      creater = #{creater,jdbcType=VARCHAR},
+      deleted = #{deleted,jdbcType=TINYINT}
     where id = #{id,jdbcType=BIGINT}
   </update>
 </mapper>

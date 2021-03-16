@@ -65,5 +65,10 @@ public class ActBpmnFile implements Serializable {
      */
     private String creater;
 
+    /**
+     * 删除标识 0未删除 -1删除
+     */
+    private Byte deleted;
+
     private static final long serialVersionUID = 1L;
 }

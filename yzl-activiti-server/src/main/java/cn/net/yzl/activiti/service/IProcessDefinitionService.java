@@ -7,10 +7,10 @@ import org.springframework.web.multipart.MultipartFile;
 public interface IProcessDefinitionService {
     /**
      * 删除流程
-     * @param id
+     * @param processId
      * @return
      */
-    ComResponse delProcessDefinition(String id);
+    ComResponse delProcessDefinition(String processId);
 
     /**
      * 流程图上传

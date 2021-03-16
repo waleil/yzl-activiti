@@ -52,12 +52,12 @@ public class ProcessDefinitionController {
      */
     @ApiOperation(value = "删除流程", notes = "删除流程")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "id", paramType = "query", dataType = "String", required = true, value = "流程id"),
+            @ApiImplicitParam(name = "processId", paramType = "query", dataType = "String", required = true, value = "流程id"),
     })
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/{processId}")
     @Deprecated
-    public ComResponse delProcessDefinition(@PathVariable("id") String id) {
-        return processDefinitionService.delProcessDefinition(id);
+    public ComResponse delProcessDefinition(@PathVariable("processId") String processId) {
+        return processDefinitionService.delProcessDefinition(processId);
     }
 
     /**

@@ -2,6 +2,8 @@ package cn.net.yzl.activiti.service.impl;
 
 import cn.net.yzl.activiti.dao.ActBpmnFileDAO;
 import cn.net.yzl.activiti.domain.entity.ActBpmnFile;
+import cn.net.yzl.activiti.domain.entity.ActBpmnFileExample;
+import cn.net.yzl.activiti.enums.DeletedEnum;
 import cn.net.yzl.activiti.enums.FileStatusEnum;
 import cn.net.yzl.activiti.enums.FileTypeEnum;
 import cn.net.yzl.activiti.model.dto.ProcessDefinitionDTO;
@@ -14,6 +16,7 @@ import org.activiti.engine.repository.Deployment;
 import org.activiti.engine.repository.ProcessDefinition;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.ClassUtils;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.multipart.MultipartFile;
@@ -41,6 +44,7 @@ public class ProcessDefinitionServiceImpl implements IProcessDefinitionService {
     @Autowired
     private ActBpmnFileDAO actBpmnFileDAO;
 
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public ComResponse fileUpload(MultipartFile multipartFile, CreateProcessVO createProcessVO) {
         try {
@@ -86,14 +90,25 @@ public class ProcessDefinitionServiceImpl implements IProcessDefinitionService {
         try {
             List<ProcessDefinition> processDefinitionList = repositoryService.createProcessDefinitionQuery().list();
 
+            ActBpmnFileExample actBpmnFileExample = new ActBpmnFileExample();
+            ActBpmnFileExample.Criteria criteria = actBpmnFileExample.createCriteria();
+            criteria.andDeletedEqualTo(DeletedEnum.DELETED.getCode().byteValue());
+            List<ActBpmnFile> actBpmnFiles = actBpmnFileDAO.selectByExample(actBpmnFileExample);
+            List<String> processIds = new ArrayList<>();
+            if (!actBpmnFiles.isEmpty()) {
+                processIds = actBpmnFiles.stream().map(ActBpmnFile::getProcessId).collect(Collectors.toList());
+            }
+
             List<ProcessDefinitionDTO> collect = new ArrayList<>();
             if (!CollectionUtils.isEmpty(processDefinitionList)) {
-                collect = processDefinitionList.stream().map(processDefinition -> {
-                    ProcessDefinitionDTO processDefinitionDTO = new ProcessDefinitionDTO();
-                    processDefinitionDTO.setId(processDefinition.getDeploymentId());
-                    processDefinitionDTO.setName(processDefinition.getName());
-                    return processDefinitionDTO;
-                }).collect(Collectors.toList());
+                List<String> finalProcessIds = processIds;
+                collect = processDefinitionList.stream().filter(processDefinition -> !finalProcessIds.contains(processDefinition.getId()))
+                        .map(processDefinition -> {
+                            ProcessDefinitionDTO processDefinitionDTO = new ProcessDefinitionDTO();
+                            processDefinitionDTO.setId(processDefinition.getDeploymentId());
+                            processDefinitionDTO.setName(processDefinition.getName());
+                            return processDefinitionDTO;
+                        }).collect(Collectors.toList());
             }
             return ComResponse.success(collect);
         } catch (Exception e) {
@@ -103,6 +118,7 @@ public class ProcessDefinitionServiceImpl implements IProcessDefinitionService {
         return ComResponse.success();
     }
 
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public ComResponse pushProcessDefinition(Long fileId) {
 
@@ -125,13 +141,27 @@ public class ProcessDefinitionServiceImpl implements IProcessDefinitionService {
         }
     }
 
+    @Transactional(rollbackFor = Exception.class)
     @Override
-    public ComResponse delProcessDefinition(String id) {
+    public ComResponse delProcessDefinition(String processId) {
         try {
-            repositoryService.deleteDeployment(id);
+            //todo: 校验当前是否存在审批流程
+            ActBpmnFileExample actBpmnFileExample = new ActBpmnFileExample();
+            ActBpmnFileExample.Criteria criteria = actBpmnFileExample.createCriteria();
+            criteria.andProcessIdEqualTo(processId);
+
+            List<ActBpmnFile> actBpmnFiles = actBpmnFileDAO.selectByExample(actBpmnFileExample);
+            if (actBpmnFiles.isEmpty()) {
+                log.error("processId:【{}】对应流程不存在", processId);
+                return new ComResponse().setMessage("processId对应流程不存在").setCode(ComResponse.ERROR_STATUS);
+            }
+            ActBpmnFile actBpmnFile = actBpmnFiles.get(0);
+            actBpmnFile.setDeleted(DeletedEnum.DELETED.getCode().byteValue());
+            actBpmnFileDAO.updateByPrimaryKey(actBpmnFile);
+//            repositoryService.deleteDeployment(id);
             return new ComResponse().setCode(ComResponse.SUCCESS_STATUS);
         } catch (Exception e) {
-            log.error("删除流程定义【{}】失败, 失败原因：{}", id, e.getStackTrace());
+            log.error("删除流程定义【{}】失败, 失败原因：{}", processId, e.getStackTrace());
             return new ComResponse().setCode(ComResponse.ERROR_STATUS);
         }
     }
