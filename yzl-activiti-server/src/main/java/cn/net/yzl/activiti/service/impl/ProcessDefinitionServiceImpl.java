@@ -11,6 +11,7 @@ import org.activiti.engine.RepositoryService;
 import org.activiti.engine.repository.ProcessDefinition;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
@@ -79,8 +80,17 @@ public class ProcessDefinitionServiceImpl implements IProcessDefinitionService {
     }
 
     @Override
-    public ComResponse getProcessDefinitionList() {
-        List<ProcessDefinition> processDefinitionList = repositoryService.createProcessDefinitionQuery().list();
-        return ComResponse.success(processDefinitionList);
+    public ComResponse<List<ProcessDefinition>> getProcessDefinitionList() {
+        try {
+            List<ProcessDefinition> processDefinitionList = repositoryService.createProcessDefinitionQuery().list();
+            if (CollectionUtils.isEmpty(processDefinitionList)) {
+                return ComResponse.success();
+            }
+            return ComResponse.success(processDefinitionList);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return ComResponse.success();
     }
 }

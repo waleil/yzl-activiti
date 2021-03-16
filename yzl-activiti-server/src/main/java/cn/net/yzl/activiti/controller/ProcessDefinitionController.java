@@ -1,6 +1,5 @@
 package cn.net.yzl.activiti.controller;
 
-import cn.net.yzl.activiti.config.SecurityUtil;
 import cn.net.yzl.activiti.service.IProcessDefinitionService;
 import cn.net.yzl.common.entity.ComResponse;
 import cn.net.yzl.common.enums.ResponseCodeEnums;
@@ -8,7 +7,6 @@ import cn.net.yzl.model.dto.ActivitiResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-
 
 /**
  * 流程管理控制层
