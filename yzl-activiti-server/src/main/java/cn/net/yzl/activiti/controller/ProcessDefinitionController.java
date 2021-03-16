@@ -43,7 +43,7 @@ public class ProcessDefinitionController {
      * 查询模型详情
      * @return
      */
-    public ActivitiResult getProcessDefinition() {
+    public ComResponse getProcessDefinition() {
         return null;
     }
 

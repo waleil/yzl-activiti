@@ -27,6 +27,11 @@ import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+/**
+ * 审批流程服务层
+ * @author limisheng
+ * @date 2021/03/16
+ */
 @Slf4j
 @Service
 public class ProcessDefinitionServiceImpl implements IProcessDefinitionService {
@@ -35,17 +40,6 @@ public class ProcessDefinitionServiceImpl implements IProcessDefinitionService {
     private RepositoryService repositoryService;
     @Autowired
     private ActBpmnFileDAO actBpmnFileDAO;
-
-    @Override
-    public ComResponse delProcessDefinition(String id) {
-        try {
-            repositoryService.deleteDeployment(id);
-            return new ComResponse().setCode(ComResponse.SUCCESS_STATUS);
-        } catch (Exception e) {
-            log.error("删除流程定义【{}】失败, 失败原因：{}", id, e.getStackTrace());
-            return new ComResponse().setCode(ComResponse.ERROR_STATUS);
-        }
-    }
 
     @Override
     public ComResponse fileUpload(MultipartFile multipartFile, CreateProcessVO createProcessVO) {
@@ -101,10 +95,10 @@ public class ProcessDefinitionServiceImpl implements IProcessDefinitionService {
                     return processDefinitionDTO;
                 }).collect(Collectors.toList());
             }
-
             return ComResponse.success(collect);
         } catch (Exception e) {
             e.printStackTrace();
+            log.error("获取审批流程列表失败：{}", e.getStackTrace());
         }
         return ComResponse.success();
     }
@@ -121,9 +115,20 @@ public class ProcessDefinitionServiceImpl implements IProcessDefinitionService {
                     .name(actBpmnFile.getProcessName())
                     .addInputStream(actBpmnFile.getProcessName(), fis)
                     .deploy();
+            return ComResponse.success(deploy);
+        } catch (Exception e) {
+            log.error("流程启动失败，失败原因：{}", e.getStackTrace());
+            return new ComResponse().setCode(ComResponse.ERROR_STATUS);
+        }
+    }
+
+    @Override
+    public ComResponse delProcessDefinition(String id) {
+        try {
+            repositoryService.deleteDeployment(id);
             return new ComResponse().setCode(ComResponse.SUCCESS_STATUS);
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error("删除流程定义【{}】失败, 失败原因：{}", id, e.getStackTrace());
             return new ComResponse().setCode(ComResponse.ERROR_STATUS);
         }
     }
