@@ -76,7 +76,9 @@ public class TestTaskService {
         log.info("任务负责人：{}",task.getAssignee());
         log.info("任务名称:{}",task.getName());
         taskService.complete(task.getId());
-        }
+    }
+
+
 
 
     //根据候选人查询组任务

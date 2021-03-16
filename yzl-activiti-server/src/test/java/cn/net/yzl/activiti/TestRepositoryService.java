@@ -21,7 +21,7 @@ import java.util.zip.ZipInputStream;
 
 /**
  * 流程仓库Service，用于管理流程仓库，例如部署、删除、读取流程资源
- *
+ * 可以提供接口 保存流程 查看流程 删除流程 编辑流程（在审批中得流程如何处理？）
  */
 @Slf4j
 @RunWith(SpringRunner.class)
@@ -42,8 +42,8 @@ public class TestRepositoryService {
             //classpath方式
             Deployment deploy = repositoryService.createDeployment()
                     .name("请假申请流程")
-                    .addClasspathResource("processes/evection.bpmn")
-                    .addClasspathResource("processes/evection.png")
+                    .addClasspathResource("processes/evection-exclusive.bpmn")
+                    .key("CRM0001")
                     .deploy();
 
             //获取资源相对路径
@@ -81,12 +81,19 @@ public class TestRepositoryService {
         }
     }
 
+    /**
+     * processDefinition he processInstance
+     * ProcessDefinition 流程定义
+     * processInstance 流程实例
+     *
+     */
     //查询流程
     @Test
     public void getDefinitions(){
-        List<ProcessDefinition> list = repositoryService.createProcessDefinitionQuery().deploymentId("8f0c855b-8537-11eb-bdae-005056c00001")
+
+        List<ProcessDefinition> processDefinitionList = repositoryService.createProcessDefinitionQuery().deploymentId("bc123061-853d-11eb-9ee3-005056c00001")
                 .list();
-        for(ProcessDefinition pd : list){
+        for(ProcessDefinition pd : processDefinitionList){
             System.out.println("------流程--------");
             System.out.println("Name："+pd.getName());
             System.out.println("Key："+pd.getKey());
@@ -96,6 +103,15 @@ public class TestRepositoryService {
             System.out.println("diagramResourceName："+pd.getDiagramResourceName());
             System.out.println("category："+pd.getCategory());
         }
+        System.out.println("============================================");
+
+        List<Deployment> deploymentList = repositoryService.createDeploymentQuery().deploymentId("bc123061-853d-11eb-9ee3-005056c00001").list();
+        for (Deployment deployment: deploymentList) {
+            System.out.println(deployment.getName());
+            System.out.println(deployment.getId());
+            System.out.println(deployment.getKey());
+            System.out.println(deployment.getDeploymentTime());
+        }
     }
 
     /**
@@ -103,6 +119,6 @@ public class TestRepositoryService {
      */
     @Test
     public void deleteDeployment() {
-        repositoryService.deleteDeployment("8f0c855b-8537-11eb-bdae-005056c00001");
+        repositoryService.deleteDeployment("c85afcdc-853c-11eb-bac4-005056c00001");
     }
 }

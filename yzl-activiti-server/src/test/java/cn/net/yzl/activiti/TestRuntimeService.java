@@ -1,6 +1,8 @@
 package cn.net.yzl.activiti;
 
 import lombok.extern.slf4j.Slf4j;
+import org.activiti.api.process.runtime.ProcessRuntime;
+import org.activiti.engine.ProcessEngine;
 import org.activiti.engine.RuntimeService;
 import org.activiti.engine.runtime.ProcessInstance;
 import org.junit.Test;
@@ -22,8 +24,12 @@ public class TestRuntimeService {
     @Autowired
     private RuntimeService runtimeService;
 
+    @Autowired
+    private ProcessRuntime processRuntime;
+
     /**
-     * 初始化流程实例
+     * 初始化流程实例 流程实例可以启动多次
+     * act_hi_actinst 节点信息
      */
     @Test
     public void initProcessInstance(){

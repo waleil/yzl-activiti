@@ -3,12 +3,13 @@ package cn.net.yzl.activiti;
 import cn.net.yzl.common.swagger2.EnableSwagger;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.mybatis.spring.annotation.MapperScan;
 
-@SpringBootApplication(scanBasePackages = {"cn.net.yzl.activiti","cn.net.yzl.logger"})
+@SpringBootApplication(exclude={DataSourceAutoConfiguration.class})
 @EnableDiscoveryClient
 @EnableSwagger
 @EnableAsync

@@ -78,7 +78,7 @@ public class TestActiviti {
         ProcessInstance processInstance = processRuntime.
                 start(ProcessPayloadBuilder.
                         start().
-                        withProcessDefinitionKey("myEvection").withBusinessKey("bKey001").
+                        withProcessDefinitionKey("exclusive").withBusinessKey("bKey001").
                         build());
         log.info("流程实例的内容，{}",processInstance);
     }
@@ -86,7 +86,7 @@ public class TestActiviti {
     /**完成任务*/
     @Test
     public void completeTask(){
-        String taskID = "c47c1343-8267-11eb-aace-18c04d47ad75";
+        String taskID = "5eb75925-8589-11eb-b8c3-005056c00001";
         // 1、创建ProcessEngine
         ProcessEngine processEngine = ProcessEngines.getDefaultProcessEngine();
         processEngine.getTaskService().complete(taskID, null, false);
@@ -99,7 +99,7 @@ public class TestActiviti {
     @Test
     public void doTask(){
         //设置登录用户
-        securityUtil.logInAs("jerry");
+        securityUtil.logInAs("jack");
         //查询任务
         Page<Task> taskPage = taskRuntime.tasks(Pageable.of(0, 10));
         if(taskPage != null && taskPage.getTotalItems()>0){

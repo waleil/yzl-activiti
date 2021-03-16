@@ -56,7 +56,7 @@ public class TestHistoryService {
         HistoryService historyService = engine.getHistoryService();
 
         //根据processInstanceId 可以查询当前流程实例属性信息
-        List<HistoricProcessInstance> list = historyService.createHistoricProcessInstanceQuery().processInstanceId("0144c714-82dd-11eb-85df-18c04d47ad75").list();
+        List<HistoricProcessInstance> list = historyService.createHistoricProcessInstanceQuery().processInstanceId("ed092d17-8588-11eb-bc4c-005056c00001").list();
         System.out.println("当前流程实例：" + JSON.toJSONString(list));
 
         //未完成任务
@@ -84,7 +84,7 @@ public class TestHistoryService {
 
     @Test
     public void TaskComplete() {
-        securityUtil.logInAs("zhangsan");
+        securityUtil.logInAs("rose");
 
         Page<Task> tasks = taskRuntime.tasks(Pageable.of(0, 10));
 
