@@ -1,12 +1,14 @@
 package cn.net.yzl.activiti.controller;
 
+import cn.net.yzl.activiti.config.SecurityUtil;
 import cn.net.yzl.activiti.service.IProcessDefinitionService;
 import cn.net.yzl.common.entity.ComResponse;
+import cn.net.yzl.common.enums.ResponseCodeEnums;
 import cn.net.yzl.model.dto.ActivitiResult;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
 
 /**
  * 流程管理控制层
@@ -18,27 +20,24 @@ public class ProcessDefinitionController {
     private IProcessDefinitionService processDefinitionService;
 
     /**
-     * 保存模型
+     * 文件上传bpmn
      * @return
      */
-    public ActivitiResult createProcessDefinition() {
-        return null;
-    }
-
-    /**
-     * 文件上传模型
-     * @return
-     */
-    public ActivitiResult fileUpload() {
-        return null;
+    @PostMapping(value = "/upload")
+    public ComResponse fileUpload(@RequestParam("processFile") MultipartFile multipartFile, @RequestParam("userName") String userName) {
+        if (multipartFile.isEmpty()) {
+            return ComResponse.fail(ResponseCodeEnums.PARAMS_ERROR_CODE, "上传文件不能为空");
+        }
+        return processDefinitionService.fileUpload(multipartFile, userName);
     }
 
     /**
      * 查询模型列表
      * @return
      */
-    public ActivitiResult getProcessDefinitionList() {
-        return null;
+    @GetMapping(value = "/process/definitions")
+    public ComResponse getProcessDefinitionList() {
+        return processDefinitionService.getProcessDefinitionList();
     }
 
     /**

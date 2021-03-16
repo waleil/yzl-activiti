@@ -41,7 +41,7 @@
       <bpmndi:BPMNShape bpmnElement="_2" id="Yaoqiang-_2">
         <omgdc:Bounds height="32.0" width="32.0" x="245.0" y="10.0"/>
         <bpmndi:BPMNLabel>
-          <omgdc:Bounds height="19.84" width="56.0" x="233.0" y="50.02"/>
+          <omgdc:Bounds height="19.84" width="56.0" x="233.0" y="50.0"/>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape bpmnElement="_3" id="Yaoqiang-_3">
@@ -71,42 +71,42 @@
       <bpmndi:BPMNShape bpmnElement="_7" id="Yaoqiang-_7">
         <omgdc:Bounds height="32.0" width="32.0" x="250.0" y="400.0"/>
         <bpmndi:BPMNLabel>
-          <omgdc:Bounds height="19.84" width="51.0" x="240.5" y="440.02"/>
+          <omgdc:Bounds height="19.84" width="51.0" x="240.5" y="440.0"/>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge bpmnElement="_12" id="Yaoqiang-_12">
-        <omgdi:waypoint x="266.0" y="375.3888888888889"/>
-        <omgdi:waypoint x="266.0" y="400.3888888888889"/>
+        <omgdi:waypoint x="266.0" y="375.5"/>
+        <omgdi:waypoint x="266.0" y="400.5078144082805"/>
         <bpmndi:BPMNLabel>
-          <omgdc:Bounds height="19.84" width="6.0" x="263.0" y="377.97"/>
-        </bpmndi:BPMNLabel>
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge bpmnElement="_9" id="Yaoqiang-_9">
-        <omgdi:waypoint x="262.5" y="120.38888888888891"/>
-        <omgdi:waypoint x="262.5" y="155.3888888888889"/>
-        <bpmndi:BPMNLabel>
-          <omgdc:Bounds height="19.84" width="6.0" x="259.5" y="127.97"/>
+          <omgdc:Bounds height="19.84" width="6.0" x="263.0" y="378.09"/>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="_11" id="Yaoqiang-_11">
-        <omgdi:waypoint x="267.5" y="295.3888888888889"/>
-        <omgdi:waypoint x="267.5" y="320.3888888888889"/>
+        <omgdi:waypoint x="267.5" y="295.5"/>
+        <omgdi:waypoint x="267.5" y="320.5"/>
         <bpmndi:BPMNLabel>
-          <omgdc:Bounds height="19.84" width="6.0" x="264.5" y="297.97"/>
+          <omgdc:Bounds height="19.84" width="6.0" x="264.5" y="298.08"/>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge bpmnElement="_8" id="Yaoqiang-_8">
-        <omgdi:waypoint x="261.0" y="42.388888888888914"/>
-        <omgdi:waypoint x="261.0" y="65.38888888888891"/>
+      <bpmndi:BPMNEdge bpmnElement="_9" id="Yaoqiang-_9">
+        <omgdi:waypoint x="262.5" y="120.5"/>
+        <omgdi:waypoint x="262.5" y="155.5"/>
         <bpmndi:BPMNLabel>
-          <omgdc:Bounds height="19.84" width="6.0" x="258.0" y="43.97"/>
+          <omgdc:Bounds height="19.84" width="6.0" x="259.5" y="128.08"/>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="_10" id="Yaoqiang-_10">
-        <omgdi:waypoint x="265.0" y="210.3888888888889"/>
-        <omgdi:waypoint x="265.0" y="240.3888888888889"/>
+        <omgdi:waypoint x="265.0" y="210.5"/>
+        <omgdi:waypoint x="265.0" y="240.5"/>
         <bpmndi:BPMNLabel>
-          <omgdc:Bounds height="19.84" width="6.0" x="262.0" y="215.47"/>
+          <omgdc:Bounds height="19.84" width="6.0" x="262.0" y="215.58"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="_8" id="Yaoqiang-_8">
+        <omgdi:waypoint x="261.0" y="42.492185591719476"/>
+        <omgdi:waypoint x="261.0" y="65.5"/>
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds height="19.84" width="6.0" x="258.0" y="44.08"/>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
     </bpmndi:BPMNPlane>
