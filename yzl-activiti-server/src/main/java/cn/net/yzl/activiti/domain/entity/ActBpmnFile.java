@@ -16,6 +16,11 @@ public class ActBpmnFile implements Serializable {
     private Long id;
 
     /**
+     * 流程id
+     */
+    private String processId;
+
+    /**
      * 流程名称
      */
     private String processName;
@@ -36,14 +41,14 @@ public class ActBpmnFile implements Serializable {
     private String fileName;
 
     /**
-     * 文件类型
-     */
-    private Byte fileType;
-
-    /**
      * 文件路径
      */
     private String filePath;
+
+    /**
+     * 文件类型
+     */
+    private Byte fileType;
 
     /**
      * 文件状态

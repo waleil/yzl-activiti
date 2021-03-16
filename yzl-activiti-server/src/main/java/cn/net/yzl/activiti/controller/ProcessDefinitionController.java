@@ -4,8 +4,6 @@ import cn.net.yzl.activiti.model.dto.ProcessDefinitionDTO;
 import cn.net.yzl.activiti.model.vo.CreateProcessVO;
 import cn.net.yzl.activiti.service.IProcessDefinitionService;
 import cn.net.yzl.common.entity.ComResponse;
-import cn.net.yzl.common.enums.ResponseCodeEnums;
-import cn.net.yzl.model.dto.ActivitiResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -22,6 +20,15 @@ public class ProcessDefinitionController {
     private IProcessDefinitionService processDefinitionService;
 
     /**
+     * 查询流程列表
+     * @return
+     */
+    @GetMapping(value = "/process/definitions")
+    public ComResponse<List<ProcessDefinitionDTO>> getProcessDefinitionList() {
+        return processDefinitionService.getProcessDefinitionList();
+    }
+
+    /**
      * 创建流程
      * @return
      */
@@ -31,24 +38,7 @@ public class ProcessDefinitionController {
     }
 
     /**
-     * 查询模型列表
-     * @return
-     */
-    @GetMapping(value = "/process/definitions")
-    public ComResponse<List<ProcessDefinitionDTO>> getProcessDefinitionList() {
-        return processDefinitionService.getProcessDefinitionList();
-    }
-
-    /**
-     * 查询模型详情
-     * @return
-     */
-    public ComResponse getProcessDefinition() {
-        return null;
-    }
-
-    /**
-     * 删除模型
+     * 删除流程
      * @return
      */
     @DeleteMapping("/{id}")
@@ -58,10 +48,10 @@ public class ProcessDefinitionController {
     }
 
     /**
-     * 模型发布
+     * 流程发布
      * @return
      */
-    @GetMapping(value = "/process/start/{fileId}")
+    @PostMapping(value = "/process/start/{fileId}")
     public ComResponse pushProcessDefinition(@PathVariable("fileId") Long fileId) {
         return processDefinitionService.pushProcessDefinition(fileId);
     }

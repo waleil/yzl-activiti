@@ -6,11 +6,11 @@ import lombok.Data;
 @Data
 public class BizException extends RuntimeException {
      /**
-       * 错误码
+    * 错误码
     */
     protected Integer code;
     /**
-       * 错误信息
+    * 错误信息
     */
     protected String message;
     public BizException(int code, String message) {

@@ -165,6 +165,76 @@ public class ActBpmnFileExample {
             return (Criteria) this;
         }
 
+        public Criteria andProcessIdIsNull() {
+            addCriterion("process_id is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andProcessIdIsNotNull() {
+            addCriterion("process_id is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andProcessIdEqualTo(String value) {
+            addCriterion("process_id =", value, "processId");
+            return (Criteria) this;
+        }
+
+        public Criteria andProcessIdNotEqualTo(String value) {
+            addCriterion("process_id <>", value, "processId");
+            return (Criteria) this;
+        }
+
+        public Criteria andProcessIdGreaterThan(String value) {
+            addCriterion("process_id >", value, "processId");
+            return (Criteria) this;
+        }
+
+        public Criteria andProcessIdGreaterThanOrEqualTo(String value) {
+            addCriterion("process_id >=", value, "processId");
+            return (Criteria) this;
+        }
+
+        public Criteria andProcessIdLessThan(String value) {
+            addCriterion("process_id <", value, "processId");
+            return (Criteria) this;
+        }
+
+        public Criteria andProcessIdLessThanOrEqualTo(String value) {
+            addCriterion("process_id <=", value, "processId");
+            return (Criteria) this;
+        }
+
+        public Criteria andProcessIdLike(String value) {
+            addCriterion("process_id like", value, "processId");
+            return (Criteria) this;
+        }
+
+        public Criteria andProcessIdNotLike(String value) {
+            addCriterion("process_id not like", value, "processId");
+            return (Criteria) this;
+        }
+
+        public Criteria andProcessIdIn(List<String> values) {
+            addCriterion("process_id in", values, "processId");
+            return (Criteria) this;
+        }
+
+        public Criteria andProcessIdNotIn(List<String> values) {
+            addCriterion("process_id not in", values, "processId");
+            return (Criteria) this;
+        }
+
+        public Criteria andProcessIdBetween(String value1, String value2) {
+            addCriterion("process_id between", value1, value2, "processId");
+            return (Criteria) this;
+        }
+
+        public Criteria andProcessIdNotBetween(String value1, String value2) {
+            addCriterion("process_id not between", value1, value2, "processId");
+            return (Criteria) this;
+        }
+
         public Criteria andProcessNameIsNull() {
             addCriterion("process_name is null");
             return (Criteria) this;
@@ -445,66 +515,6 @@ public class ActBpmnFileExample {
             return (Criteria) this;
         }
 
-        public Criteria andFileTypeIsNull() {
-            addCriterion("file_type is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andFileTypeIsNotNull() {
-            addCriterion("file_type is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andFileTypeEqualTo(Byte value) {
-            addCriterion("file_type =", value, "fileType");
-            return (Criteria) this;
-        }
-
-        public Criteria andFileTypeNotEqualTo(Byte value) {
-            addCriterion("file_type <>", value, "fileType");
-            return (Criteria) this;
-        }
-
-        public Criteria andFileTypeGreaterThan(Byte value) {
-            addCriterion("file_type >", value, "fileType");
-            return (Criteria) this;
-        }
-
-        public Criteria andFileTypeGreaterThanOrEqualTo(Byte value) {
-            addCriterion("file_type >=", value, "fileType");
-            return (Criteria) this;
-        }
-
-        public Criteria andFileTypeLessThan(Byte value) {
-            addCriterion("file_type <", value, "fileType");
-            return (Criteria) this;
-        }
-
-        public Criteria andFileTypeLessThanOrEqualTo(Byte value) {
-            addCriterion("file_type <=", value, "fileType");
-            return (Criteria) this;
-        }
-
-        public Criteria andFileTypeIn(List<Byte> values) {
-            addCriterion("file_type in", values, "fileType");
-            return (Criteria) this;
-        }
-
-        public Criteria andFileTypeNotIn(List<Byte> values) {
-            addCriterion("file_type not in", values, "fileType");
-            return (Criteria) this;
-        }
-
-        public Criteria andFileTypeBetween(Byte value1, Byte value2) {
-            addCriterion("file_type between", value1, value2, "fileType");
-            return (Criteria) this;
-        }
-
-        public Criteria andFileTypeNotBetween(Byte value1, Byte value2) {
-            addCriterion("file_type not between", value1, value2, "fileType");
-            return (Criteria) this;
-        }
-
         public Criteria andFilePathIsNull() {
             addCriterion("file_path is null");
             return (Criteria) this;
@@ -572,6 +582,66 @@ public class ActBpmnFileExample {
 
         public Criteria andFilePathNotBetween(String value1, String value2) {
             addCriterion("file_path not between", value1, value2, "filePath");
+            return (Criteria) this;
+        }
+
+        public Criteria andFileTypeIsNull() {
+            addCriterion("file_type is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andFileTypeIsNotNull() {
+            addCriterion("file_type is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andFileTypeEqualTo(Byte value) {
+            addCriterion("file_type =", value, "fileType");
+            return (Criteria) this;
+        }
+
+        public Criteria andFileTypeNotEqualTo(Byte value) {
+            addCriterion("file_type <>", value, "fileType");
+            return (Criteria) this;
+        }
+
+        public Criteria andFileTypeGreaterThan(Byte value) {
+            addCriterion("file_type >", value, "fileType");
+            return (Criteria) this;
+        }
+
+        public Criteria andFileTypeGreaterThanOrEqualTo(Byte value) {
+            addCriterion("file_type >=", value, "fileType");
+            return (Criteria) this;
+        }
+
+        public Criteria andFileTypeLessThan(Byte value) {
+            addCriterion("file_type <", value, "fileType");
+            return (Criteria) this;
+        }
+
+        public Criteria andFileTypeLessThanOrEqualTo(Byte value) {
+            addCriterion("file_type <=", value, "fileType");
+            return (Criteria) this;
+        }
+
+        public Criteria andFileTypeIn(List<Byte> values) {
+            addCriterion("file_type in", values, "fileType");
+            return (Criteria) this;
+        }
+
+        public Criteria andFileTypeNotIn(List<Byte> values) {
+            addCriterion("file_type not in", values, "fileType");
+            return (Criteria) this;
+        }
+
+        public Criteria andFileTypeBetween(Byte value1, Byte value2) {
+            addCriterion("file_type between", value1, value2, "fileType");
+            return (Criteria) this;
+        }
+
+        public Criteria andFileTypeNotBetween(Byte value1, Byte value2) {
+            addCriterion("file_type not between", value1, value2, "fileType");
             return (Criteria) this;
         }
 

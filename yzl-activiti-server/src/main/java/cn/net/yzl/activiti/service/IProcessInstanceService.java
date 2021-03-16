@@ -2,6 +2,8 @@ package cn.net.yzl.activiti.service;
 
 import cn.net.yzl.common.entity.ComResponse;
 
+import javax.servlet.http.HttpServletResponse;
+
 public interface IProcessInstanceService {
 
     /**
@@ -17,4 +19,20 @@ public interface IProcessInstanceService {
      * @return
      */
     ComResponse resumeProcessInstance(String processId);
+
+    /**
+     * 查询流程
+     * @param processId
+     * @return
+     */
+    ComResponse processDetail(String processId);
+
+    /**
+     * 查询流程xml
+     * @param response
+     * @param processId
+     * @param processName
+     */
+    void processXmlDetail(HttpServletResponse response, String processId, String processName);
+
 }

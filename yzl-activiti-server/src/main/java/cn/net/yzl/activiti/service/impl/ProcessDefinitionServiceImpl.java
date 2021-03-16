@@ -115,6 +115,9 @@ public class ProcessDefinitionServiceImpl implements IProcessDefinitionService {
                     .name(actBpmnFile.getProcessName())
                     .addInputStream(actBpmnFile.getProcessName(), fis)
                     .deploy();
+            actBpmnFile.setProcessId(deploy.getId());
+            actBpmnFileDAO.updateByPrimaryKey(actBpmnFile);
+
             return ComResponse.success(deploy);
         } catch (Exception e) {
             log.error("流程启动失败，失败原因：{}", e.getStackTrace());

@@ -3,12 +3,13 @@
 <mapper namespace="cn.net.yzl.activiti.dao.ActBpmnFileDAO">
   <resultMap id="BaseResultMap" type="cn.net.yzl.activiti.domain.entity.ActBpmnFile">
     <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="process_id" jdbcType="VARCHAR" property="processId" />
     <result column="process_name" jdbcType="VARCHAR" property="processName" />
     <result column="approval_type" jdbcType="VARCHAR" property="approvalType" />
     <result column="event" jdbcType="VARCHAR" property="event" />
     <result column="file_name" jdbcType="VARCHAR" property="fileName" />
-    <result column="file_type" jdbcType="TINYINT" property="fileType" />
     <result column="file_path" jdbcType="VARCHAR" property="filePath" />
+    <result column="file_type" jdbcType="TINYINT" property="fileType" />
     <result column="file_status" jdbcType="TINYINT" property="fileStatus" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="creater" jdbcType="VARCHAR" property="creater" />
@@ -72,8 +73,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, process_name, approval_type, event, file_name, file_type, file_path, file_status, 
-    create_time, creater
+    id, process_id, process_name, approval_type, event, file_name, file_path, file_type, 
+    file_status, create_time, creater
   </sql>
   <select id="selectByExample" parameterType="cn.net.yzl.activiti.domain.entity.ActBpmnFileExample" resultMap="BaseResultMap">
     select
@@ -106,18 +107,21 @@
     </if>
   </delete>
   <insert id="insert" keyColumn="id" keyProperty="id" parameterType="cn.net.yzl.activiti.domain.entity.ActBpmnFile" useGeneratedKeys="true">
-    insert into act_bpmn_file (process_name, approval_type, event, 
-      file_name, file_type, file_path, 
-      file_status, create_time, creater
-      )
-    values (#{processName,jdbcType=VARCHAR}, #{approvalType,jdbcType=VARCHAR}, #{event,jdbcType=VARCHAR}, 
-      #{fileName,jdbcType=VARCHAR}, #{fileType,jdbcType=TINYINT}, #{filePath,jdbcType=VARCHAR}, 
-      #{fileStatus,jdbcType=TINYINT}, #{createTime,jdbcType=TIMESTAMP}, #{creater,jdbcType=VARCHAR}
-      )
+    insert into act_bpmn_file (process_id, process_name, approval_type, 
+      event, file_name, file_path, 
+      file_type, file_status, create_time, 
+      creater)
+    values (#{processId,jdbcType=VARCHAR}, #{processName,jdbcType=VARCHAR}, #{approvalType,jdbcType=VARCHAR}, 
+      #{event,jdbcType=VARCHAR}, #{fileName,jdbcType=VARCHAR}, #{filePath,jdbcType=VARCHAR}, 
+      #{fileType,jdbcType=TINYINT}, #{fileStatus,jdbcType=TINYINT}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{creater,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="cn.net.yzl.activiti.domain.entity.ActBpmnFile" useGeneratedKeys="true">
     insert into act_bpmn_file
     <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="processId != null">
+        process_id,
+      </if>
       <if test="processName != null">
         process_name,
       </if>
@@ -130,11 +134,11 @@
       <if test="fileName != null">
         file_name,
       </if>
-      <if test="fileType != null">
-        file_type,
-      </if>
       <if test="filePath != null">
         file_path,
+      </if>
+      <if test="fileType != null">
+        file_type,
       </if>
       <if test="fileStatus != null">
         file_status,
@@ -147,6 +151,9 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="processId != null">
+        #{processId,jdbcType=VARCHAR},
+      </if>
       <if test="processName != null">
         #{processName,jdbcType=VARCHAR},
       </if>
@@ -159,11 +166,11 @@
       <if test="fileName != null">
         #{fileName,jdbcType=VARCHAR},
       </if>
-      <if test="fileType != null">
-        #{fileType,jdbcType=TINYINT},
-      </if>
       <if test="filePath != null">
         #{filePath,jdbcType=VARCHAR},
+      </if>
+      <if test="fileType != null">
+        #{fileType,jdbcType=TINYINT},
       </if>
       <if test="fileStatus != null">
         #{fileStatus,jdbcType=TINYINT},
@@ -188,6 +195,9 @@
       <if test="record.id != null">
         id = #{record.id,jdbcType=BIGINT},
       </if>
+      <if test="record.processId != null">
+        process_id = #{record.processId,jdbcType=VARCHAR},
+      </if>
       <if test="record.processName != null">
         process_name = #{record.processName,jdbcType=VARCHAR},
       </if>
@@ -200,11 +210,11 @@
       <if test="record.fileName != null">
         file_name = #{record.fileName,jdbcType=VARCHAR},
       </if>
-      <if test="record.fileType != null">
-        file_type = #{record.fileType,jdbcType=TINYINT},
-      </if>
       <if test="record.filePath != null">
         file_path = #{record.filePath,jdbcType=VARCHAR},
+      </if>
+      <if test="record.fileType != null">
+        file_type = #{record.fileType,jdbcType=TINYINT},
       </if>
       <if test="record.fileStatus != null">
         file_status = #{record.fileStatus,jdbcType=TINYINT},
@@ -223,12 +233,13 @@
   <update id="updateByExample" parameterType="map">
     update act_bpmn_file
     set id = #{record.id,jdbcType=BIGINT},
+      process_id = #{record.processId,jdbcType=VARCHAR},
       process_name = #{record.processName,jdbcType=VARCHAR},
       approval_type = #{record.approvalType,jdbcType=VARCHAR},
       event = #{record.event,jdbcType=VARCHAR},
       file_name = #{record.fileName,jdbcType=VARCHAR},
-      file_type = #{record.fileType,jdbcType=TINYINT},
       file_path = #{record.filePath,jdbcType=VARCHAR},
+      file_type = #{record.fileType,jdbcType=TINYINT},
       file_status = #{record.fileStatus,jdbcType=TINYINT},
       create_time = #{record.createTime,jdbcType=TIMESTAMP},
       creater = #{record.creater,jdbcType=VARCHAR}
@@ -239,6 +250,9 @@
   <update id="updateByPrimaryKeySelective" parameterType="cn.net.yzl.activiti.domain.entity.ActBpmnFile">
     update act_bpmn_file
     <set>
+      <if test="processId != null">
+        process_id = #{processId,jdbcType=VARCHAR},
+      </if>
       <if test="processName != null">
         process_name = #{processName,jdbcType=VARCHAR},
       </if>
@@ -251,11 +265,11 @@
       <if test="fileName != null">
         file_name = #{fileName,jdbcType=VARCHAR},
       </if>
-      <if test="fileType != null">
-        file_type = #{fileType,jdbcType=TINYINT},
-      </if>
       <if test="filePath != null">
         file_path = #{filePath,jdbcType=VARCHAR},
+      </if>
+      <if test="fileType != null">
+        file_type = #{fileType,jdbcType=TINYINT},
       </if>
       <if test="fileStatus != null">
         file_status = #{fileStatus,jdbcType=TINYINT},
@@ -271,12 +285,13 @@
   </update>
   <update id="updateByPrimaryKey" parameterType="cn.net.yzl.activiti.domain.entity.ActBpmnFile">
     update act_bpmn_file
-    set process_name = #{processName,jdbcType=VARCHAR},
+    set process_id = #{processId,jdbcType=VARCHAR},
+      process_name = #{processName,jdbcType=VARCHAR},
       approval_type = #{approvalType,jdbcType=VARCHAR},
       event = #{event,jdbcType=VARCHAR},
       file_name = #{fileName,jdbcType=VARCHAR},
-      file_type = #{fileType,jdbcType=TINYINT},
       file_path = #{filePath,jdbcType=VARCHAR},
+      file_type = #{fileType,jdbcType=TINYINT},
       file_status = #{fileStatus,jdbcType=TINYINT},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       creater = #{creater,jdbcType=VARCHAR}
