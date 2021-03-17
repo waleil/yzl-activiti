@@ -40,22 +40,21 @@ public class TestRepositoryService {
             //有三种方式加载
 
             //classpath方式
-            Deployment deploy = repositoryService.createDeployment()
-                    .name("请假申请流程")
-                    .addClasspathResource("processes/evection-exclusive.bpmn")
-                    .key("CRM0001")
-                    .deploy();
+//            Deployment deploy = repositoryService.createDeployment()
+//                    .name("请假申请流程")
+//                    .addClasspathResource("processes/evection-exclusive.bpmn")
+//                    .key("CRM0001")
+//                    .deploy();
 
             //获取资源相对路径
-//            String bpmnPath = "processes/evection.bpmn";
-//            String pngPath = "processes/evection.png";
-//            FileInputStream bpmnfileInputStream = new FileInputStream(bpmnPath);
+            String bpmnPath = "D:/work/yzl-activiti/yzl-activiti-server/target/classes/processes/3dbddab1-8751-4a21-86df-32b32576e5d4.bpmn";
+            FileInputStream bpmnfileInputStream = new FileInputStream(bpmnPath);
 //            FileInputStream pngfileInputStream = new FileInputStream(pngPath);
-//            Deployment deployment = processEngine.getRepositoryService()//获取流程定义和部署对象相关的Service
-//                    .createDeployment()//创建部署对象
-//                    .addInputStream("processes.bpmn",bpmnfileInputStream)
+            Deployment deploy = repositoryService//获取流程定义和部署对象相关的Service
+                    .createDeployment()//创建部署对象
+                    .addInputStream("processes.bpmn",bpmnfileInputStream)
 //                    .addInputStream("processes.png", pngfileInputStream)
-//                    .deploy();//完成部署
+                    .deploy();//完成部署
             //字符串方式
 //            String text = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><definitions>...</definitions>";
 //

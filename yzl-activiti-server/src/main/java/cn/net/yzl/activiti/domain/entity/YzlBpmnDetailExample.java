@@ -235,6 +235,76 @@ public class YzlBpmnDetailExample {
             return (Criteria) this;
         }
 
+        public Criteria andProcessKeyIsNull() {
+            addCriterion("process_key is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andProcessKeyIsNotNull() {
+            addCriterion("process_key is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andProcessKeyEqualTo(String value) {
+            addCriterion("process_key =", value, "processKey");
+            return (Criteria) this;
+        }
+
+        public Criteria andProcessKeyNotEqualTo(String value) {
+            addCriterion("process_key <>", value, "processKey");
+            return (Criteria) this;
+        }
+
+        public Criteria andProcessKeyGreaterThan(String value) {
+            addCriterion("process_key >", value, "processKey");
+            return (Criteria) this;
+        }
+
+        public Criteria andProcessKeyGreaterThanOrEqualTo(String value) {
+            addCriterion("process_key >=", value, "processKey");
+            return (Criteria) this;
+        }
+
+        public Criteria andProcessKeyLessThan(String value) {
+            addCriterion("process_key <", value, "processKey");
+            return (Criteria) this;
+        }
+
+        public Criteria andProcessKeyLessThanOrEqualTo(String value) {
+            addCriterion("process_key <=", value, "processKey");
+            return (Criteria) this;
+        }
+
+        public Criteria andProcessKeyLike(String value) {
+            addCriterion("process_key like", value, "processKey");
+            return (Criteria) this;
+        }
+
+        public Criteria andProcessKeyNotLike(String value) {
+            addCriterion("process_key not like", value, "processKey");
+            return (Criteria) this;
+        }
+
+        public Criteria andProcessKeyIn(List<String> values) {
+            addCriterion("process_key in", values, "processKey");
+            return (Criteria) this;
+        }
+
+        public Criteria andProcessKeyNotIn(List<String> values) {
+            addCriterion("process_key not in", values, "processKey");
+            return (Criteria) this;
+        }
+
+        public Criteria andProcessKeyBetween(String value1, String value2) {
+            addCriterion("process_key between", value1, value2, "processKey");
+            return (Criteria) this;
+        }
+
+        public Criteria andProcessKeyNotBetween(String value1, String value2) {
+            addCriterion("process_key not between", value1, value2, "processKey");
+            return (Criteria) this;
+        }
+
         public Criteria andProcessNameIsNull() {
             addCriterion("process_name is null");
             return (Criteria) this;

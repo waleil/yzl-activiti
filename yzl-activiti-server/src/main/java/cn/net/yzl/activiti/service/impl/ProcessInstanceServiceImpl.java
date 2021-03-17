@@ -1,5 +1,6 @@
 package cn.net.yzl.activiti.service.impl;
 
+import cn.net.yzl.activiti.config.SecurityUtil;
 import cn.net.yzl.activiti.dao.YzlBpmnDetailDAO;
 import cn.net.yzl.activiti.domain.entity.YzlBpmnDetail;
 import cn.net.yzl.activiti.domain.entity.YzlBpmnDetailExample;
@@ -7,8 +8,13 @@ import cn.net.yzl.activiti.service.IProcessInstanceService;
 import cn.net.yzl.common.entity.ComResponse;
 import cn.net.yzl.common.enums.ResponseCodeEnums;
 import lombok.extern.slf4j.Slf4j;
+import org.activiti.api.process.model.ProcessInstance;
+import org.activiti.api.process.model.builders.ProcessPayloadBuilder;
+import org.activiti.api.process.runtime.ProcessRuntime;
+import org.activiti.api.task.runtime.TaskRuntime;
 import org.activiti.engine.RepositoryService;
 import org.activiti.engine.RuntimeService;
+import org.activiti.engine.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -29,6 +35,12 @@ public class ProcessInstanceServiceImpl implements IProcessInstanceService {
 
     @Autowired
     private YzlBpmnDetailDAO yzlBpmnDetailDAO;
+
+    @Autowired
+    private ProcessRuntime processRuntime;
+
+    @Autowired
+    private SecurityUtil securityUtil;
 
     @Override
     public ComResponse processDetail(String processId) {
@@ -82,5 +94,25 @@ public class ProcessInstanceServiceImpl implements IProcessInstanceService {
             log.error("激活流程失败，失败原因：{}", e.getStackTrace());
             return new ComResponse().setCode(ComResponse.ERROR_STATUS);
         }
+    }
+
+    @Override
+    public ComResponse startProcess(String processDefinitionKey, String instanceName, String instanceVariable) {
+
+        try {
+            securityUtil.logInAs("system");
+            ProcessInstance processInstance = processRuntime.start(ProcessPayloadBuilder
+                    .start()
+                    .withProcessDefinitionKey(processDefinitionKey)
+                    .withName(instanceName)
+                    //.withVariable("content", instanceVariable)
+                    //.withVariable("参数2", "参数2的值")
+                    .withBusinessKey("自定义BusinessKey")
+                    .build());
+            return new ComResponse().setCode(ComResponse.SUCCESS_STATUS);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }
