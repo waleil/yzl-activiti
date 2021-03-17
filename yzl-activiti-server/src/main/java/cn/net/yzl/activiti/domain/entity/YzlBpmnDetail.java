@@ -21,6 +21,11 @@ public class YzlBpmnDetail implements Serializable {
     private String processId;
 
     /**
+     * 流程key
+     */
+    private String processKey;
+
+    /**
      * 流程名称
      */
     private String processName;

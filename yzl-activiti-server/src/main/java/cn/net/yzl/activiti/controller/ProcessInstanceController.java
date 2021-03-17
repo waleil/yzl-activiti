@@ -7,6 +7,7 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
+import org.activiti.api.task.runtime.TaskRuntime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -62,7 +63,7 @@ public class ProcessInstanceController {
             @ApiImplicitParam(name = "processId", paramType = "query", dataType = "String", required = true, value = "流程id"),
     })
     @GetMapping(value = "/process/suspend/{processId}")
-    public ComResponse suspendProcessInstance(@RequestParam("processId") String processId) {
+    public ComResponse suspendProcessInstance(@PathVariable("processId") String processId) {
         log.info("挂起流程实例,processId：【{}】", processId);
         return processInstanceService.suspendProcessInstance(processId);
     }
@@ -76,9 +77,28 @@ public class ProcessInstanceController {
             @ApiImplicitParam(name = "processId", paramType = "query", dataType = "String", required = true, value = "流程id"),
     })
     @GetMapping(value = "/process/resume/{processId}")
-    public ComResponse resumeProcessInstance(@RequestParam("processId") String processId) {
+    public ComResponse resumeProcessInstance(@PathVariable("processId") String processId) {
         log.info("激活流程实例,processId：【{}】", processId);
         return processInstanceService.resumeProcessInstance(processId);
+    }
+
+    /**
+     * 启动流程
+     * @return
+     */
+    @ApiOperation(value = "启动流程", notes = "启动流程")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "processDefinitionKey", paramType = "query", dataType = "String", required = true, value = "key"),
+            @ApiImplicitParam(name = "instanceName", paramType = "query", dataType = "String", required = true, value = "实力名"),
+            @ApiImplicitParam(name = "instanceVariable", paramType = "query", dataType = "String", required = true, value = "流程id"),
+    })
+    @GetMapping(value = "/process/start")
+    public ComResponse startProcess(@RequestParam("processDefinitionKey") String processDefinitionKey,
+                                    @RequestParam("instanceName") String instanceName,
+                                    @RequestParam("instanceVariable") String instanceVariable) {
+        log.info("启动流程,processDefinitionKey：【{}】, instanceName:【{}】, instanceVariable:【{}】",
+                processDefinitionKey, instanceName, instanceVariable);
+        return processInstanceService.startProcess(processDefinitionKey, instanceName, instanceVariable);
     }
 
 }

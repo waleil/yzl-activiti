@@ -13,6 +13,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.activiti.engine.RepositoryService;
 import org.activiti.engine.repository.Deployment;
 import org.activiti.engine.repository.ProcessDefinition;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -67,17 +68,16 @@ public class ProcessDefinitionServiceImpl implements IProcessDefinitionService {
             multipartFile.transferTo(file);
 
             YzlBpmnDetail yzlBpmnDetail = new YzlBpmnDetail();
+
+            BeanUtils.copyProperties(createProcessVO, yzlBpmnDetail);
             yzlBpmnDetail.setFileName(fileName);
             yzlBpmnDetail.setFilePath(filePath);
             yzlBpmnDetail.setFileStatus(FileStatusEnum.NORMAL.getCode().byteValue());
             yzlBpmnDetail.setFileType(FileTypeEnum.matcher(suffixName).getCode().byteValue());
             yzlBpmnDetail.setCreateTime(new Date());
-            yzlBpmnDetail.setApprovalType(createProcessVO.getApprovalType());
-            yzlBpmnDetail.setEvent(createProcessVO.getEvent());
-            yzlBpmnDetail.setProcessName(createProcessVO.getProcessName());
             yzlBpmnDetail.setCreater(createProcessVO.getUserName());
-            Integer id = yzlBpmnDetailDAO.insertSelective(yzlBpmnDetail);
-            return ComResponse.success(ComResponse.SUCCESS_STATUS, null, "成功", id);
+            yzlBpmnDetailDAO.insertSelective(yzlBpmnDetail);
+            return ComResponse.success(ComResponse.SUCCESS_STATUS, null, "成功", yzlBpmnDetail.getId());
         } catch (Exception e) {
             log.error("流程上传失败, 失败原因：{}", e.getStackTrace());
             e.printStackTrace();
@@ -127,11 +127,13 @@ public class ProcessDefinitionServiceImpl implements IProcessDefinitionService {
             YzlBpmnDetail yzlBpmnDetail = yzlBpmnDetailDAO.selectByPrimaryKey(fileId);
             File file = new File(yzlBpmnDetail.getFilePath());
             FileInputStream fis = new FileInputStream(file);
-            //inputstream方式
+            //input stream方式
             Deployment deploy = repositoryService.createDeployment()
                     .name(yzlBpmnDetail.getProcessName())
-                    .addInputStream(yzlBpmnDetail.getProcessName(), fis)
+                    .addInputStream(yzlBpmnDetail.getProcessName() + ".bpmn", fis)
+                    .key(yzlBpmnDetail.getProcessKey())
                     .deploy();
+
             yzlBpmnDetail.setProcessId(deploy.getId());
             yzlBpmnDetailDAO.updateByPrimaryKey(yzlBpmnDetail);
 

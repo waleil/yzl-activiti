@@ -3,7 +3,6 @@ package cn.net.yzl.activiti.model.vo;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
-import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.constraints.NotEmpty;
 
@@ -20,6 +19,10 @@ public class CreateProcessVO {
 
     @ApiModelProperty(value = "事件", name = "event")
     private String event;
+
+    @ApiModelProperty(value = "流程key", name = "processKey", required = true)
+    @NotEmpty(message = "流程key不能为空")
+    private String processKey;
 
     @ApiModelProperty(value = "操作人", name = "userName", required = true)
     @NotEmpty(message = "操作人不能为空")

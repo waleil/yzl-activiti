@@ -4,6 +4,7 @@
   <resultMap id="BaseResultMap" type="cn.net.yzl.activiti.domain.entity.YzlBpmnDetail">
     <id column="id" jdbcType="BIGINT" property="id" />
     <result column="process_id" jdbcType="VARCHAR" property="processId" />
+    <result column="process_key" jdbcType="VARCHAR" property="processKey" />
     <result column="process_name" jdbcType="VARCHAR" property="processName" />
     <result column="approval_type" jdbcType="VARCHAR" property="approvalType" />
     <result column="event" jdbcType="VARCHAR" property="event" />
@@ -74,8 +75,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, process_id, process_name, approval_type, event, file_name, file_path, file_type, 
-    file_status, create_time, creater, deleted
+    id, process_id, process_key, process_name, approval_type, event, file_name, file_path, 
+    file_type, file_status, create_time, creater, deleted
   </sql>
   <select id="selectByExample" parameterType="cn.net.yzl.activiti.domain.entity.YzlBpmnDetailExample" resultMap="BaseResultMap">
     select
@@ -108,20 +109,25 @@
     </if>
   </delete>
   <insert id="insert" keyColumn="id" keyProperty="id" parameterType="cn.net.yzl.activiti.domain.entity.YzlBpmnDetail" useGeneratedKeys="true">
-    insert into yzl_bpmn_detail (process_id, process_name, approval_type, 
-      event, file_name, file_path, 
-      file_type, file_status, create_time, 
-      creater, deleted)
-    values (#{processId,jdbcType=VARCHAR}, #{processName,jdbcType=VARCHAR}, #{approvalType,jdbcType=VARCHAR}, 
-      #{event,jdbcType=VARCHAR}, #{fileName,jdbcType=VARCHAR}, #{filePath,jdbcType=VARCHAR}, 
-      #{fileType,jdbcType=TINYINT}, #{fileStatus,jdbcType=TINYINT}, #{createTime,jdbcType=TIMESTAMP}, 
-      #{creater,jdbcType=VARCHAR}, #{deleted,jdbcType=TINYINT})
+    insert into yzl_bpmn_detail (process_id, process_key, process_name, 
+      approval_type, event, file_name, 
+      file_path, file_type, file_status, 
+      create_time, creater, deleted
+      )
+    values (#{processId,jdbcType=VARCHAR}, #{processKey,jdbcType=VARCHAR}, #{processName,jdbcType=VARCHAR}, 
+      #{approvalType,jdbcType=VARCHAR}, #{event,jdbcType=VARCHAR}, #{fileName,jdbcType=VARCHAR}, 
+      #{filePath,jdbcType=VARCHAR}, #{fileType,jdbcType=TINYINT}, #{fileStatus,jdbcType=TINYINT}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{creater,jdbcType=VARCHAR}, #{deleted,jdbcType=TINYINT}
+      )
   </insert>
   <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="cn.net.yzl.activiti.domain.entity.YzlBpmnDetail" useGeneratedKeys="true">
     insert into yzl_bpmn_detail
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="processId != null">
         process_id,
+      </if>
+      <if test="processKey != null">
+        process_key,
       </if>
       <if test="processName != null">
         process_name,
@@ -157,6 +163,9 @@
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="processId != null">
         #{processId,jdbcType=VARCHAR},
+      </if>
+      <if test="processKey != null">
+        #{processKey,jdbcType=VARCHAR},
       </if>
       <if test="processName != null">
         #{processName,jdbcType=VARCHAR},
@@ -205,6 +214,9 @@
       <if test="record.processId != null">
         process_id = #{record.processId,jdbcType=VARCHAR},
       </if>
+      <if test="record.processKey != null">
+        process_key = #{record.processKey,jdbcType=VARCHAR},
+      </if>
       <if test="record.processName != null">
         process_name = #{record.processName,jdbcType=VARCHAR},
       </if>
@@ -244,6 +256,7 @@
     update yzl_bpmn_detail
     set id = #{record.id,jdbcType=BIGINT},
       process_id = #{record.processId,jdbcType=VARCHAR},
+      process_key = #{record.processKey,jdbcType=VARCHAR},
       process_name = #{record.processName,jdbcType=VARCHAR},
       approval_type = #{record.approvalType,jdbcType=VARCHAR},
       event = #{record.event,jdbcType=VARCHAR},
@@ -263,6 +276,9 @@
     <set>
       <if test="processId != null">
         process_id = #{processId,jdbcType=VARCHAR},
+      </if>
+      <if test="processKey != null">
+        process_key = #{processKey,jdbcType=VARCHAR},
       </if>
       <if test="processName != null">
         process_name = #{processName,jdbcType=VARCHAR},
@@ -300,6 +316,7 @@
   <update id="updateByPrimaryKey" parameterType="cn.net.yzl.activiti.domain.entity.YzlBpmnDetail">
     update yzl_bpmn_detail
     set process_id = #{processId,jdbcType=VARCHAR},
+      process_key = #{processKey,jdbcType=VARCHAR},
       process_name = #{processName,jdbcType=VARCHAR},
       approval_type = #{approvalType,jdbcType=VARCHAR},
       event = #{event,jdbcType=VARCHAR},

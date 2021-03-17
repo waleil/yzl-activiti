@@ -35,4 +35,12 @@ public interface IProcessInstanceService {
      */
     void processXmlDetail(HttpServletResponse response, String processId, String processName);
 
+    /**
+     * 启动流程
+     * @param processDefinitionKey
+     * @param instanceName
+     * @param instanceVariable
+     * @return
+     */
+    ComResponse startProcess(String processDefinitionKey, String instanceName, String instanceVariable);
 }
