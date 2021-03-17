@@ -11,6 +11,10 @@ logging:
   config: classpath:logback.xml
 
 
+swagger:
+  enable: true
+
+
 
 
 
