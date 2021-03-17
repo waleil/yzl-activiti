@@ -1,22 +1,32 @@
 package cn.net.yzl.activiti;
 
 import cn.net.yzl.activiti.config.SecurityUtil;
+import com.alibaba.nacos.client.identify.Base64;
 import lombok.extern.slf4j.Slf4j;
 import org.activiti.api.process.runtime.ProcessRuntime;
 import org.activiti.api.task.runtime.TaskRuntime;
-import org.activiti.engine.ProcessEngine;
-import org.activiti.engine.ProcessEngines;
-import org.activiti.engine.RuntimeService;
-import org.activiti.engine.TaskService;
+import org.activiti.bpmn.model.BpmnModel;
+import org.activiti.engine.*;
+import org.activiti.engine.history.HistoricActivityInstance;
+import org.activiti.engine.history.HistoricProcessInstance;
 import org.activiti.engine.runtime.ProcessInstance;
 import org.activiti.engine.task.Task;
+import org.activiti.image.ProcessDiagramGenerator;
+import org.apache.commons.io.IOUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 任务service,管理,查询任务，例如签收，办理,指派任务。
@@ -33,6 +43,9 @@ public class TestTaskService {
 
     @Autowired
     private SecurityUtil securityUtil;
+
+    @Autowired
+    ProcessDiagramGenerator processDiagramGenerator;
 
     /**
      * 查看任务详情
@@ -216,6 +229,46 @@ public class TestTaskService {
         if (task != null) {
         taskService.setAssignee(taskId, candidateuser);
         }
+    }
+
+
+    //activity获取流程图、当前节点高亮显示和流程实例的历史活动信息
+    @Test
+    public Map findPicture(String processInstanceId){
+        Map map=new HashMap();
+        try {
+            // 获取流程引擎
+            ProcessEngine engine = ProcessEngines.getDefaultProcessEngine();
+            HistoryService historyService = engine.getHistoryService();
+            RepositoryService repositoryService = engine.getRepositoryService();
+            RuntimeService runtimeService = engine.getRuntimeService();
+            HistoricProcessInstance historicProcessInstance=historyService.createHistoricProcessInstanceQuery().processInstanceId(processInstanceId).singleResult();
+
+            BpmnModel bpmnModel=repositoryService.getBpmnModel(historicProcessInstance.getProcessDefinitionId());
+
+            List<String> activityIds=new ArrayList<>();
+            //判断流程实例是否已经结束
+            if (historicProcessInstance.getEndTime()==null){
+                //获取该流程实例的当前活动节点
+                //在得到的流程图片上会以红框高亮显示
+                activityIds= runtimeService.getActiveActivityIds(processInstanceId);
+            }
+            //获取流程图信息
+            InputStream inputStream=processDiagramGenerator.generateDiagram(bpmnModel,"png",activityIds);
+            //转换方便页面展示图拍呢
+            byte[] bytes= IOUtils.toByteArray(inputStream);
+            String img=new String(Base64.encodeBase64(bytes));
+            //获取该流程实例的所有历史活动，即经历的各个审批节点
+            List<HistoricActivityInstance> list=historyService.createHistoricActivityInstanceQuery().processInstanceId(processInstanceId).list();
+            map.put("success",true);
+            map.put("data",img);
+            return map;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        map.put("success",false);
+        map.put("data",null);
+        return map;
     }
 
 }
