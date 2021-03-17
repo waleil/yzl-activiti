@@ -1,5 +1,6 @@
 package cn.net.yzl.activiti.controller;
 
+import cn.net.yzl.activiti.model.vo.RejectedVO;
 import cn.net.yzl.activiti.service.IActTaskService;
 import cn.net.yzl.activiti.utils.AjaxResponse;
 import cn.net.yzl.common.entity.ComResponse;
@@ -8,11 +9,6 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
-import cn.net.yzl.model.dto.ActivitiResult;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiImplicitParams;
-import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -49,8 +45,18 @@ public class TaskController {
     @GetMapping(value = "/pass/{userName}/{taskID}")
     public ComResponse pass(@PathVariable("userName") String userName,
             @PathVariable("taskID") String taskID) {
-        log.info("审批通过,入参taskID：【{}】",taskID);
+        log.info("审批通过,入参userName：【{userName}】, taskID：【{}】", userName, taskID);
         return actTaskService.pass(userName,taskID);
+    }
+
+    /**
+     * 审批拒绝
+     */
+    @ApiOperation(value = "审批拒绝", notes = "审批拒绝")
+    @PostMapping(value = "/rejected")
+    public ComResponse rejected(@RequestBody RejectedVO rejectedVO) {
+        log.info("审批拒绝,入参userName: 【{}】,taskID：【{}】",rejectedVO.getUserName(), rejectedVO.getTaskId());
+        return actTaskService.rejected(rejectedVO);
     }
 
 }

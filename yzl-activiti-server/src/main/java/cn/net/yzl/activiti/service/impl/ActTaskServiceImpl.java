@@ -1,6 +1,7 @@
 package cn.net.yzl.activiti.service.impl;
 
 import cn.net.yzl.activiti.config.SecurityUtil;
+import cn.net.yzl.activiti.model.vo.RejectedVO;
 import cn.net.yzl.activiti.utils.AjaxResponse;
 import cn.net.yzl.activiti.utils.GlobalConfig;
 import cn.net.yzl.common.entity.ComResponse;
@@ -13,12 +14,14 @@ import org.activiti.api.runtime.shared.query.Pageable;
 import org.activiti.api.task.model.Task;
 import org.activiti.api.task.model.builders.TaskPayloadBuilder;
 import org.activiti.api.task.runtime.TaskRuntime;
+import org.activiti.engine.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 /**
@@ -39,6 +42,9 @@ public class ActTaskServiceImpl implements IActTaskService {
     @Autowired
     private ProcessRuntime processRuntime;
 
+    @Autowired
+    private TaskService taskService;
+
     @Override
     public ComResponse pass(String userName,String taskId) {
         try {
@@ -58,15 +64,10 @@ public class ActTaskServiceImpl implements IActTaskService {
     }
 
     @Override
-    public ActivitiResult refuse() {
-        return null;
-    }
-
-    @Override
     public AjaxResponse getTasks(String userName) {
         try {
 //            securityUtil.logInAs(userName);
-            securityUtil.logInAs("bajie");
+            securityUtil.logInAs(userName);
             org.activiti.api.runtime.shared.query.Page<Task> tasks = taskRuntime.tasks(Pageable.of(0, 100));
             List<HashMap<String, Object>> listMap = new ArrayList<>();
             for (Task tk : tasks.getContent()) {
@@ -89,6 +90,20 @@ public class ActTaskServiceImpl implements IActTaskService {
         } catch (Exception e) {
             return AjaxResponse.AjaxData(GlobalConfig.ResponseCode.ERROR.getCode(),
                     "获取我的代办任务失败", e.toString());
+        }
+    }
+
+    @Override
+    public ComResponse rejected(RejectedVO rejectedVO) {
+        try {
+            Map<String, Object> variables = new HashMap<>();
+            variables.put("dealUser", rejectedVO.getUserName());
+            variables.put("dealReason",rejectedVO.getDealReason());
+            taskService.complete(rejectedVO.getTaskId(), variables);
+            return ComResponse.success();
+        } catch (Exception e) {
+            log.error("拒绝失败， 失败原因： {}", e.getStackTrace());
+            return new ComResponse().setCode(ComResponse.ERROR_STATUS);
         }
     }
 

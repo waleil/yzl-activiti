@@ -41,7 +41,7 @@
       <bpmndi:BPMNShape bpmnElement="_2" id="Yaoqiang-_2">
         <omgdc:Bounds height="32.0" width="32.0" x="305.0" y="45.0"/>
         <bpmndi:BPMNLabel>
-          <omgdc:Bounds height="19.84" width="56.0" x="293.0" y="85.04"/>
+          <omgdc:Bounds height="19.84" width="56.0" x="293.0" y="85.02"/>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape bpmnElement="_3" id="Yaoqiang-_3">
@@ -53,7 +53,7 @@
       <bpmndi:BPMNShape bpmnElement="_7" id="Yaoqiang-_7">
         <omgdc:Bounds height="32.0" width="32.0" x="320.0" y="500.0"/>
         <bpmndi:BPMNLabel>
-          <omgdc:Bounds height="19.84" width="51.0" x="310.5" y="540.04"/>
+          <omgdc:Bounds height="19.84" width="51.0" x="310.5" y="540.02"/>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape bpmnElement="_14" id="Yaoqiang-_14">
@@ -81,18 +81,18 @@
           <omgdc:Bounds height="19.84" width="6.0" x="332.0" y="372.97"/>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge bpmnElement="_20" id="Yaoqiang-_20">
-        <omgdi:waypoint x="336.0" y="450.3888888888889"/>
-        <omgdi:waypoint x="336.0" y="500.3888888888889"/>
-        <bpmndi:BPMNLabel>
-          <omgdc:Bounds height="19.84" width="6.0" x="333.0" y="465.47"/>
-        </bpmndi:BPMNLabel>
-      </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="_18" id="Yaoqiang-_18">
         <omgdi:waypoint x="335.0" y="275.3888888888889"/>
         <omgdi:waypoint x="335.0" y="315.3888888888889"/>
         <bpmndi:BPMNLabel>
           <omgdc:Bounds height="19.84" width="6.0" x="332.0" y="285.47"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="_20" id="Yaoqiang-_20">
+        <omgdi:waypoint x="336.0" y="450.3888888888889"/>
+        <omgdi:waypoint x="336.0" y="500.3888888888889"/>
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds height="19.84" width="6.0" x="333.0" y="465.47"/>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="_15" id="Yaoqiang-_15">

@@ -9,4 +9,18 @@ public interface IHistoryService {
      * @return
      */
     ComResponse historyDetail(String processInstanceId);
+
+    /**
+     * 我发起的流程
+     * @param userName
+     * @return
+     */
+    ComResponse myCreated(String userName);
+
+    /**
+     * 我审批的流程
+     * @param userName
+     * @return
+     */
+    ComResponse myApproved(String userName);
 }

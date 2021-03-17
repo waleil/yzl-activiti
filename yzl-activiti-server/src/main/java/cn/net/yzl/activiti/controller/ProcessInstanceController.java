@@ -100,4 +100,22 @@ public class ProcessInstanceController {
         return processInstanceService.startProcess(processDefinitionKey, instanceName, instanceVariable);
     }
 
+    /**
+     * 流程撤销
+     * @return
+     */
+    @GetMapping(value = "/process/backout")
+    public ComResponse backout() {
+        return null;
+    }
+
+    /**
+     * 流程催办
+     * @return
+     */
+    @GetMapping(value = "/process/press")
+    public ComResponse press() {
+        return null;
+    }
+
 }
