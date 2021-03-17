@@ -91,6 +91,8 @@ public class ProcessDefinitionServiceImpl implements IProcessDefinitionService {
             //todo : 需要优化
             List<ProcessDefinition> processDefinitionList = repositoryService.createProcessDefinitionQuery().list();
 
+
+
             YzlBpmnDetailExample yzlBpmnDetailExample = new YzlBpmnDetailExample();
             YzlBpmnDetailExample.Criteria criteria = yzlBpmnDetailExample.createCriteria();
             criteria.andDeletedEqualTo(DeletedEnum.DELETED.getCode().byteValue());

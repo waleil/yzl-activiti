@@ -22,13 +22,4 @@ public interface IActTaskService {
      * @param userName
      */
     AjaxResponse getTasks(String userName);
-
-
-    /**
-     * 完成代办任务
-     * @param userName
-     * @param taskID
-     */
-    AjaxResponse completeTask(String userName,String taskID);
-
 }

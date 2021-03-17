@@ -39,11 +39,17 @@ public class ActTaskServiceImpl implements IActTaskService {
     @Autowired
     private ProcessRuntime processRuntime;
 
-
     @Override
     public ComResponse pass(String userName,String taskId) {
         try {
-            this.completeTask(userName,taskId);
+            securityUtil.logInAs(userName);
+            Task task = taskRuntime.task(taskId);
+            if (task.getAssignee() == null) {
+                taskRuntime.claim(TaskPayloadBuilder.claim().withTaskId(task.getId()).build());
+            }
+            taskRuntime.complete(TaskPayloadBuilder.complete().withTaskId(task.getId())
+                    //.withVariable("num", "2")//执行环节设置变量
+                    .build());
             return new ComResponse().setCode(ComResponse.SUCCESS_STATUS);
         } catch (Exception e) {
             log.error("【{}】完成任务，失败原因：{}", taskId, e.getStackTrace());
@@ -55,8 +61,6 @@ public class ActTaskServiceImpl implements IActTaskService {
     public ActivitiResult refuse() {
         return null;
     }
-
-
 
     @Transactional(rollbackFor = Exception.class)
     @Override
@@ -86,26 +90,6 @@ public class ActTaskServiceImpl implements IActTaskService {
         } catch (Exception e) {
             return AjaxResponse.AjaxData(GlobalConfig.ResponseCode.ERROR.getCode(),
                     "获取我的代办任务失败", e.toString());
-        }
-    }
-
-    @Transactional(rollbackFor = Exception.class)
-    @Override
-    public AjaxResponse completeTask(String userName, String taskID) {
-        try {
-            securityUtil.logInAs(userName);
-            Task task = taskRuntime.task(taskID);
-            if (task.getAssignee() == null) {
-                taskRuntime.claim(TaskPayloadBuilder.claim().withTaskId(task.getId()).build());
-            }
-            taskRuntime.complete(TaskPayloadBuilder.complete().withTaskId(task.getId())
-                    //.withVariable("num", "2")//执行环节设置变量
-                    .build());
-            return AjaxResponse.AjaxData(GlobalConfig.ResponseCode.SUCCESS.getCode(),
-                    GlobalConfig.ResponseCode.SUCCESS.getDesc(), null);
-        } catch (Exception e) {
-            return AjaxResponse.AjaxData(GlobalConfig.ResponseCode.ERROR.getCode(),
-                    "完成失败", e.toString());
         }
     }
 

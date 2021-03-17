@@ -38,22 +38,6 @@ public class TaskController {
          return actTaskService.getTasks(userName);
     }
 
-
-    /**
-     * 完成待办任务
-     */
-    @ApiOperation(value = "完成待办任务", notes = "完成待办任务")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "userName", paramType = "query", dataType = "String", required = true, value = "登录用户"),
-            @ApiImplicitParam(name = "taskID", paramType = "query", dataType = "String", required = true, value = "任务ID"),
-    })
-    @GetMapping(value = "/completeTask/{userName}/{taskID}")
-    public AjaxResponse completeTask(@PathVariable("userName") String userName,
-                                 @PathVariable("taskID") String taskID) {
-        log.info("完成待办任务,入参userName：【{}】,taskID：【{}】", userName,taskID);
-        return actTaskService.completeTask(userName,taskID);
-    }
-
     /**
      * 审批通过
      */
@@ -69,5 +53,4 @@ public class TaskController {
         return actTaskService.pass(userName,taskID);
     }
 
-
-    }
+}
