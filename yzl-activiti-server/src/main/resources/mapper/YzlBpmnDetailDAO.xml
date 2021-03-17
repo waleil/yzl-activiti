@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="cn.net.yzl.activiti.dao.ActBpmnFileDAO">
-  <resultMap id="BaseResultMap" type="cn.net.yzl.activiti.domain.entity.ActBpmnFile">
+<mapper namespace="cn.net.yzl.activiti.dao.YzlBpmnDetailDAO">
+  <resultMap id="BaseResultMap" type="cn.net.yzl.activiti.domain.entity.YzlBpmnDetail">
     <id column="id" jdbcType="BIGINT" property="id" />
     <result column="process_id" jdbcType="VARCHAR" property="processId" />
     <result column="process_name" jdbcType="VARCHAR" property="processName" />
@@ -77,13 +77,13 @@
     id, process_id, process_name, approval_type, event, file_name, file_path, file_type, 
     file_status, create_time, creater, deleted
   </sql>
-  <select id="selectByExample" parameterType="cn.net.yzl.activiti.domain.entity.ActBpmnFileExample" resultMap="BaseResultMap">
+  <select id="selectByExample" parameterType="cn.net.yzl.activiti.domain.entity.YzlBpmnDetailExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from act_bpmn_file
+    from yzl_bpmn_detail
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
@@ -94,21 +94,21 @@
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from act_bpmn_file
+    from yzl_bpmn_detail
     where id = #{id,jdbcType=BIGINT}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
-    delete from act_bpmn_file
+    delete from yzl_bpmn_detail
     where id = #{id,jdbcType=BIGINT}
   </delete>
-  <delete id="deleteByExample" parameterType="cn.net.yzl.activiti.domain.entity.ActBpmnFileExample">
-    delete from act_bpmn_file
+  <delete id="deleteByExample" parameterType="cn.net.yzl.activiti.domain.entity.YzlBpmnDetailExample">
+    delete from yzl_bpmn_detail
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="cn.net.yzl.activiti.domain.entity.ActBpmnFile" useGeneratedKeys="true">
-    insert into act_bpmn_file (process_id, process_name, approval_type, 
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="cn.net.yzl.activiti.domain.entity.YzlBpmnDetail" useGeneratedKeys="true">
+    insert into yzl_bpmn_detail (process_id, process_name, approval_type, 
       event, file_name, file_path, 
       file_type, file_status, create_time, 
       creater, deleted)
@@ -117,8 +117,8 @@
       #{fileType,jdbcType=TINYINT}, #{fileStatus,jdbcType=TINYINT}, #{createTime,jdbcType=TIMESTAMP}, 
       #{creater,jdbcType=VARCHAR}, #{deleted,jdbcType=TINYINT})
   </insert>
-  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="cn.net.yzl.activiti.domain.entity.ActBpmnFile" useGeneratedKeys="true">
-    insert into act_bpmn_file
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="cn.net.yzl.activiti.domain.entity.YzlBpmnDetail" useGeneratedKeys="true">
+    insert into yzl_bpmn_detail
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="processId != null">
         process_id,
@@ -190,14 +190,14 @@
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="cn.net.yzl.activiti.domain.entity.ActBpmnFileExample" resultType="java.lang.Long">
-    select count(*) from act_bpmn_file
+  <select id="countByExample" parameterType="cn.net.yzl.activiti.domain.entity.YzlBpmnDetailExample" resultType="java.lang.Long">
+    select count(*) from yzl_bpmn_detail
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </select>
   <update id="updateByExampleSelective" parameterType="map">
-    update act_bpmn_file
+    update yzl_bpmn_detail
     <set>
       <if test="record.id != null">
         id = #{record.id,jdbcType=BIGINT},
@@ -241,7 +241,7 @@
     </if>
   </update>
   <update id="updateByExample" parameterType="map">
-    update act_bpmn_file
+    update yzl_bpmn_detail
     set id = #{record.id,jdbcType=BIGINT},
       process_id = #{record.processId,jdbcType=VARCHAR},
       process_name = #{record.processName,jdbcType=VARCHAR},
@@ -258,8 +258,8 @@
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="cn.net.yzl.activiti.domain.entity.ActBpmnFile">
-    update act_bpmn_file
+  <update id="updateByPrimaryKeySelective" parameterType="cn.net.yzl.activiti.domain.entity.YzlBpmnDetail">
+    update yzl_bpmn_detail
     <set>
       <if test="processId != null">
         process_id = #{processId,jdbcType=VARCHAR},
@@ -297,8 +297,8 @@
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
-  <update id="updateByPrimaryKey" parameterType="cn.net.yzl.activiti.domain.entity.ActBpmnFile">
-    update act_bpmn_file
+  <update id="updateByPrimaryKey" parameterType="cn.net.yzl.activiti.domain.entity.YzlBpmnDetail">
+    update yzl_bpmn_detail
     set process_id = #{processId,jdbcType=VARCHAR},
       process_name = #{processName,jdbcType=VARCHAR},
       approval_type = #{approvalType,jdbcType=VARCHAR},

@@ -1,8 +1,8 @@
 package cn.net.yzl.activiti.service.impl;
 
-import cn.net.yzl.activiti.dao.ActBpmnFileDAO;
-import cn.net.yzl.activiti.domain.entity.ActBpmnFile;
-import cn.net.yzl.activiti.domain.entity.ActBpmnFileExample;
+import cn.net.yzl.activiti.dao.YzlBpmnDetailDAO;
+import cn.net.yzl.activiti.domain.entity.YzlBpmnDetail;
+import cn.net.yzl.activiti.domain.entity.YzlBpmnDetailExample;
 import cn.net.yzl.activiti.service.IProcessInstanceService;
 import cn.net.yzl.common.entity.ComResponse;
 import cn.net.yzl.common.enums.ResponseCodeEnums;
@@ -28,18 +28,18 @@ public class ProcessInstanceServiceImpl implements IProcessInstanceService {
     private RepositoryService repositoryService;
 
     @Autowired
-    private ActBpmnFileDAO actBpmnFileDAO;
+    private YzlBpmnDetailDAO yzlBpmnDetailDAO;
 
     @Override
     public ComResponse processDetail(String processId) {
 
-        ActBpmnFileExample actBpmnFileExample = new ActBpmnFileExample();
-        ActBpmnFileExample.Criteria criteria = actBpmnFileExample.createCriteria();
+        YzlBpmnDetailExample yzlBpmnDetailExample = new YzlBpmnDetailExample();
+        YzlBpmnDetailExample.Criteria criteria = yzlBpmnDetailExample.createCriteria();
         criteria.andProcessIdEqualTo(processId);
 
-        List<ActBpmnFile> actBpmnFiles = actBpmnFileDAO.selectByExample(actBpmnFileExample);
-        if (!actBpmnFiles.isEmpty()) {
-            return ComResponse.success(actBpmnFiles.get(0));
+        List<YzlBpmnDetail> yzlBpmnDetails = yzlBpmnDetailDAO.selectByExample(yzlBpmnDetailExample);
+        if (!yzlBpmnDetails.isEmpty()) {
+            return ComResponse.success(yzlBpmnDetails.get(0));
         }
         log.error("processId:{} 没有查到对应信息", processId);
         return ComResponse.fail(ResponseCodeEnums.NO_DATA);

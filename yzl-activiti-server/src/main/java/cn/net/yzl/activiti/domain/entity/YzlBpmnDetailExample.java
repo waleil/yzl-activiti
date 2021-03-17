@@ -4,14 +4,14 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class ActBpmnFileExample {
+public class YzlBpmnDetailExample {
     protected String orderByClause;
 
     protected boolean distinct;
 
     protected List<Criteria> oredCriteria;
 
-    public ActBpmnFileExample() {
+    public YzlBpmnDetailExample() {
         oredCriteria = new ArrayList<Criteria>();
     }
 

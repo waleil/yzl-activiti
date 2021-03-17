@@ -5,11 +5,11 @@ import java.util.Date;
 import lombok.Data;
 
 /**
- * act_bpmn_file
+ * yzl_bpmn_detail
  * @author 
  */
 @Data
-public class ActBpmnFile implements Serializable {
+public class YzlBpmnDetail implements Serializable {
     /**
      * bpmn文件表id
      */

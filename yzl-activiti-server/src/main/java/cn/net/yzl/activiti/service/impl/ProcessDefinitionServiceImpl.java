@@ -1,8 +1,7 @@
 package cn.net.yzl.activiti.service.impl;
 
-import cn.net.yzl.activiti.dao.ActBpmnFileDAO;
-import cn.net.yzl.activiti.domain.entity.ActBpmnFile;
-import cn.net.yzl.activiti.domain.entity.ActBpmnFileExample;
+import cn.net.yzl.activiti.dao.YzlBpmnDetailDAO;
+import cn.net.yzl.activiti.domain.entity.*;
 import cn.net.yzl.activiti.enums.DeletedEnum;
 import cn.net.yzl.activiti.enums.FileStatusEnum;
 import cn.net.yzl.activiti.enums.FileTypeEnum;
@@ -42,12 +41,13 @@ public class ProcessDefinitionServiceImpl implements IProcessDefinitionService {
     @Resource
     private RepositoryService repositoryService;
     @Autowired
-    private ActBpmnFileDAO actBpmnFileDAO;
+    private YzlBpmnDetailDAO yzlBpmnDetailDAO;
 
     @Transactional(rollbackFor = Exception.class)
     @Override
     public ComResponse fileUpload(MultipartFile multipartFile, CreateProcessVO createProcessVO) {
         try {
+            //todo: 路径linux上设置 nacos上配置
             String fileName = multipartFile.getOriginalFilename();
             // 后缀名
             String suffixName = fileName.substring(fileName.lastIndexOf("."));
@@ -66,17 +66,17 @@ public class ProcessDefinitionServiceImpl implements IProcessDefinitionService {
             }
             multipartFile.transferTo(file);
 
-            ActBpmnFile actBpmnFile = new ActBpmnFile();
-            actBpmnFile.setFileName(fileName);
-            actBpmnFile.setFilePath(filePath);
-            actBpmnFile.setFileStatus(FileStatusEnum.NORMAL.getCode().byteValue());
-            actBpmnFile.setFileType(FileTypeEnum.matcher(suffixName).getCode().byteValue());
-            actBpmnFile.setCreateTime(new Date());
-            actBpmnFile.setApprovalType(createProcessVO.getApprovalType());
-            actBpmnFile.setEvent(createProcessVO.getEvent());
-            actBpmnFile.setProcessName(createProcessVO.getProcessName());
-            actBpmnFile.setCreater(createProcessVO.getUserName());
-            Integer id = actBpmnFileDAO.insertSelective(actBpmnFile);
+            YzlBpmnDetail yzlBpmnDetail = new YzlBpmnDetail();
+            yzlBpmnDetail.setFileName(fileName);
+            yzlBpmnDetail.setFilePath(filePath);
+            yzlBpmnDetail.setFileStatus(FileStatusEnum.NORMAL.getCode().byteValue());
+            yzlBpmnDetail.setFileType(FileTypeEnum.matcher(suffixName).getCode().byteValue());
+            yzlBpmnDetail.setCreateTime(new Date());
+            yzlBpmnDetail.setApprovalType(createProcessVO.getApprovalType());
+            yzlBpmnDetail.setEvent(createProcessVO.getEvent());
+            yzlBpmnDetail.setProcessName(createProcessVO.getProcessName());
+            yzlBpmnDetail.setCreater(createProcessVO.getUserName());
+            Integer id = yzlBpmnDetailDAO.insertSelective(yzlBpmnDetail);
             return ComResponse.success(ComResponse.SUCCESS_STATUS, null, "成功", id);
         } catch (Exception e) {
             log.error("流程上传失败, 失败原因：{}", e.getStackTrace());
@@ -88,15 +88,16 @@ public class ProcessDefinitionServiceImpl implements IProcessDefinitionService {
     @Override
     public ComResponse<List<ProcessDefinitionDTO>> getProcessDefinitionList() {
         try {
+            //todo : 需要优化
             List<ProcessDefinition> processDefinitionList = repositoryService.createProcessDefinitionQuery().list();
 
-            ActBpmnFileExample actBpmnFileExample = new ActBpmnFileExample();
-            ActBpmnFileExample.Criteria criteria = actBpmnFileExample.createCriteria();
+            YzlBpmnDetailExample yzlBpmnDetailExample = new YzlBpmnDetailExample();
+            YzlBpmnDetailExample.Criteria criteria = yzlBpmnDetailExample.createCriteria();
             criteria.andDeletedEqualTo(DeletedEnum.DELETED.getCode().byteValue());
-            List<ActBpmnFile> actBpmnFiles = actBpmnFileDAO.selectByExample(actBpmnFileExample);
+            List<YzlBpmnDetail> yzlBpmnDetails = yzlBpmnDetailDAO.selectByExample(yzlBpmnDetailExample);
             List<String> processIds = new ArrayList<>();
-            if (!actBpmnFiles.isEmpty()) {
-                processIds = actBpmnFiles.stream().map(ActBpmnFile::getProcessId).collect(Collectors.toList());
+            if (!yzlBpmnDetails.isEmpty()) {
+                processIds = yzlBpmnDetails.stream().map(YzlBpmnDetail::getProcessId).collect(Collectors.toList());
             }
 
             List<ProcessDefinitionDTO> collect = new ArrayList<>();
@@ -123,16 +124,16 @@ public class ProcessDefinitionServiceImpl implements IProcessDefinitionService {
     public ComResponse pushProcessDefinition(Long fileId) {
 
         try {
-            ActBpmnFile actBpmnFile = actBpmnFileDAO.selectByPrimaryKey(fileId);
-            File file = new File(actBpmnFile.getFilePath());
+            YzlBpmnDetail yzlBpmnDetail = yzlBpmnDetailDAO.selectByPrimaryKey(fileId);
+            File file = new File(yzlBpmnDetail.getFilePath());
             FileInputStream fis = new FileInputStream(file);
             //inputstream方式
             Deployment deploy = repositoryService.createDeployment()
-                    .name(actBpmnFile.getProcessName())
-                    .addInputStream(actBpmnFile.getProcessName(), fis)
+                    .name(yzlBpmnDetail.getProcessName())
+                    .addInputStream(yzlBpmnDetail.getProcessName(), fis)
                     .deploy();
-            actBpmnFile.setProcessId(deploy.getId());
-            actBpmnFileDAO.updateByPrimaryKey(actBpmnFile);
+            yzlBpmnDetail.setProcessId(deploy.getId());
+            yzlBpmnDetailDAO.updateByPrimaryKey(yzlBpmnDetail);
 
             return ComResponse.success(deploy);
         } catch (Exception e) {
@@ -146,18 +147,18 @@ public class ProcessDefinitionServiceImpl implements IProcessDefinitionService {
     public ComResponse delProcessDefinition(String processId) {
         try {
             //todo: 校验当前是否存在审批流程
-            ActBpmnFileExample actBpmnFileExample = new ActBpmnFileExample();
-            ActBpmnFileExample.Criteria criteria = actBpmnFileExample.createCriteria();
+            YzlBpmnDetailExample yzlBpmnDetailExample = new YzlBpmnDetailExample();
+            YzlBpmnDetailExample.Criteria criteria = yzlBpmnDetailExample.createCriteria();
             criteria.andProcessIdEqualTo(processId);
 
-            List<ActBpmnFile> actBpmnFiles = actBpmnFileDAO.selectByExample(actBpmnFileExample);
-            if (actBpmnFiles.isEmpty()) {
+            List<YzlBpmnDetail> yzlBpmnDetails = yzlBpmnDetailDAO.selectByExample(yzlBpmnDetailExample);
+            if (yzlBpmnDetails.isEmpty()) {
                 log.error("processId:【{}】对应流程不存在", processId);
                 return new ComResponse().setMessage("processId对应流程不存在").setCode(ComResponse.ERROR_STATUS);
             }
-            ActBpmnFile actBpmnFile = actBpmnFiles.get(0);
-            actBpmnFile.setDeleted(DeletedEnum.DELETED.getCode().byteValue());
-            actBpmnFileDAO.updateByPrimaryKey(actBpmnFile);
+            YzlBpmnDetail yzlBpmnDetail = yzlBpmnDetails.get(0);
+            yzlBpmnDetail.setDeleted(DeletedEnum.DELETED.getCode().byteValue());
+            yzlBpmnDetailDAO.updateByPrimaryKey(yzlBpmnDetail);
 //            repositoryService.deleteDeployment(id);
             return new ComResponse().setCode(ComResponse.SUCCESS_STATUS);
         } catch (Exception e) {
