@@ -16,7 +16,6 @@ import org.mybatis.spring.annotation.MapperScan;
         }
 )
 @EnableDiscoveryClient
-@EnableSwagger
 @EnableAsync
 @EnableFeignClients(basePackages = {"cn.net.yzl.activiti.feign"})
 @MapperScan("cn.net.yzl.activiti.dao")

@@ -54,7 +54,7 @@ public class ProcessDefinitionController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "processId", paramType = "query", dataType = "String", required = true, value = "流程id"),
     })
-    @DeleteMapping("/{processId}")
+    @DeleteMapping("/delete/{processId}")
     @Deprecated
     public ComResponse delProcessDefinition(@PathVariable("processId") String processId) {
         return processDefinitionService.delProcessDefinition(processId);
