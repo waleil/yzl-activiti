@@ -1,6 +1,7 @@
 package cn.net.yzl.activiti.service;
 
 import cn.net.yzl.activiti.utils.AjaxResponse;
+import cn.net.yzl.common.entity.ComResponse;
 import cn.net.yzl.model.dto.ActivitiResult;
 
 
@@ -8,7 +9,7 @@ public interface IActTaskService {
     /**
      * 审批通过
      */
-    ActivitiResult pass();
+    ComResponse pass(String userName, String taskId);
 
 
     /**

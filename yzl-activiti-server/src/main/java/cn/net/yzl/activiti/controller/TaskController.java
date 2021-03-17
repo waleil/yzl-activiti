@@ -2,6 +2,7 @@ package cn.net.yzl.activiti.controller;
 
 import cn.net.yzl.activiti.service.IActTaskService;
 import cn.net.yzl.activiti.utils.AjaxResponse;
+import cn.net.yzl.common.entity.ComResponse;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -9,8 +10,6 @@ import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
-import javax.servlet.http.HttpServletResponse;
 
 
 @Api(tags = "activiti调用任务接口")
@@ -51,4 +50,20 @@ public class TaskController{
         return actTaskService.completeTask(userName,taskID);
     }
 
-}
+    /**
+     * 审批通过
+     */
+    @ApiOperation(value = "审批通过", notes = "审批通过")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "userName", paramType = "query", dataType = "String", required = true, value = "登录用户"),
+            @ApiImplicitParam(name = "taskID", paramType = "query", dataType = "String", required = true, value = "任务ID"),
+    })
+    @GetMapping(value = "/pass/{userName}/{taskID}")
+    public ComResponse pass(@PathVariable("userName") String userName,
+            @PathVariable("taskID") String taskID) {
+        log.info("审批通过,入参taskID：【{}】",taskID);
+        return actTaskService.pass(userName,taskID);
+    }
+
+
+    }

@@ -3,6 +3,7 @@ package cn.net.yzl.activiti.service.impl;
 import cn.net.yzl.activiti.config.SecurityUtil;
 import cn.net.yzl.activiti.utils.AjaxResponse;
 import cn.net.yzl.activiti.utils.GlobalConfig;
+import cn.net.yzl.common.entity.ComResponse;
 import cn.net.yzl.model.dto.ActivitiResult;
 import cn.net.yzl.activiti.service.IActTaskService;
 import lombok.extern.slf4j.Slf4j;
@@ -40,8 +41,14 @@ public class ActTaskServiceImpl implements IActTaskService {
 
 
     @Override
-    public ActivitiResult pass() {
-        return null;
+    public ComResponse pass(String userName,String taskId) {
+        try {
+            this.completeTask(userName,taskId);
+            return new ComResponse().setCode(ComResponse.SUCCESS_STATUS);
+        } catch (Exception e) {
+            log.error("【{}】完成任务，失败原因：{}", taskId, e.getStackTrace());
+            return new ComResponse().setCode(ComResponse.ERROR_STATUS);
+        }
     }
 
     @Override
