@@ -62,7 +62,6 @@ public class ActTaskServiceImpl implements IActTaskService {
         return null;
     }
 
-    @Transactional(rollbackFor = Exception.class)
     @Override
     public AjaxResponse getTasks(String userName) {
         try {
