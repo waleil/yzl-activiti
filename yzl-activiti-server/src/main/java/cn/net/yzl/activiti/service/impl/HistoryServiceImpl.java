@@ -34,6 +34,7 @@ public class HistoryServiceImpl implements IHistoryService {
             List<HistoricActivityInstance> list = engine.getHistoryService()
                     .createHistoricActivityInstanceQuery()
                     .processInstanceId(processInstanceId)
+                    .orderByHistoricActivityInstanceStartTime().asc()
                     .list();
             return ComResponse.success(list);
         } catch (Exception e) {

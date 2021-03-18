@@ -31,7 +31,16 @@ public class DemoApplicationConfig {
         InMemoryUserDetailsManager inMemoryUserDetailsManager = new InMemoryUserDetailsManager();
 //        构造用户的信息
         String[][] usersGroupAndRoles= {
+
+                {"haowei","password","ROLE_ACTIVITI_USER"},
+                {"zhangbaoku","password","ROLE_ACTIVITI_USER"},
+                {"wulina","password","ROLE_ACTIVITI_USER"},
+                {"zhanghua","password","ROLE_ACTIVITI_USER"},
+                {"fanjingfei","password","ROLE_ACTIVITI_USER"},
+                {"zhaolong","password","ROLE_ACTIVITI_USER"},
                 {"zhangsan","password","ROLE_ACTIVITI_USER","GROUP_activitiTeam"},
+
+
                 {"jack","password","ROLE_ACTIVITI_USER","GROUP_activitiTeam"},
                 {"rose","password","ROLE_ACTIVITI_USER","GROUP_activitiTeam"},
                 {"tom","password","ROLE_ACTIVITI_USER","GROUP_activitiTeam"},

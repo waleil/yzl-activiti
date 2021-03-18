@@ -40,7 +40,12 @@ public interface IProcessInstanceService {
      * @param processDefinitionKey
      * @param instanceName
      * @param instanceVariable
+     * @param isdirector
+     * @param director
+     * @param money
+     * @param userName
      * @return
      */
-    ComResponse startProcess(String processDefinitionKey, String instanceName, String instanceVariable);
+    ComResponse startProcess(String processDefinitionKey, String instanceName,
+                             String instanceVariable, Boolean isdirector, String director, Double money, String userName);
 }

@@ -97,17 +97,19 @@ public class ProcessInstanceServiceImpl implements IProcessInstanceService {
     }
 
     @Override
-    public ComResponse startProcess(String processDefinitionKey, String instanceName, String instanceVariable) {
+    public ComResponse startProcess(String processDefinitionKey, String instanceName, String instanceVariable,
+                                    Boolean isdirector, String director, Double money, String userName) {
 
         try {
-            securityUtil.logInAs("system");
+            securityUtil.logInAs(userName);
             ProcessInstance processInstance = processRuntime.start(ProcessPayloadBuilder
                     .start()
                     .withProcessDefinitionKey(processDefinitionKey)
                     .withName(instanceName)
-                    //.withVariable("content", instanceVariable)
-                    //.withVariable("参数2", "参数2的值")
-                    .withBusinessKey("自定义BusinessKey")
+                    .withVariable("isdirector", isdirector)
+                    .withVariable("director", director)
+                    .withVariable("money", money)
+                    .withBusinessKey("qingjia")
                     .build());
             return new ComResponse().setCode(ComResponse.SUCCESS_STATUS);
         } catch (Exception e) {

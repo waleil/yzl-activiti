@@ -90,14 +90,22 @@ public class ProcessInstanceController {
             @ApiImplicitParam(name = "processDefinitionKey", paramType = "query", dataType = "String", required = true, value = "key"),
             @ApiImplicitParam(name = "instanceName", paramType = "query", dataType = "String", required = true, value = "实力名"),
             @ApiImplicitParam(name = "instanceVariable", paramType = "query", dataType = "String", required = true, value = "流程id"),
+            @ApiImplicitParam(name = "isdirector", paramType = "query", dataType = "Boolean", required = true, value = "是否是总监"),
+            @ApiImplicitParam(name = "director", paramType = "query", dataType = "String", required = true, value = "总监"),
+            @ApiImplicitParam(name = "money", paramType = "query", dataType = "Double", required = true, value = "金额"),
+            @ApiImplicitParam(name = "userName", paramType = "query", dataType = "String", required = true, value = "用户"),
     })
     @GetMapping(value = "/process/start")
     public ComResponse startProcess(@RequestParam("processDefinitionKey") String processDefinitionKey,
                                     @RequestParam("instanceName") String instanceName,
+                                    @RequestParam("isdirector") Boolean isdirector,
+                                    @RequestParam("director") String director,
+                                    @RequestParam("money") Double money,
+                                    @RequestParam("userName") String userName,
                                     @RequestParam("instanceVariable") String instanceVariable) {
         log.info("启动流程,processDefinitionKey：【{}】, instanceName:【{}】, instanceVariable:【{}】",
                 processDefinitionKey, instanceName, instanceVariable);
-        return processInstanceService.startProcess(processDefinitionKey, instanceName, instanceVariable);
+        return processInstanceService.startProcess(processDefinitionKey, instanceName, instanceVariable, isdirector, director, money, userName);
     }
 
     /**
