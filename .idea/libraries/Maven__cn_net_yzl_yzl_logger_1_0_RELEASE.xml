@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="Maven: cn.net.yzl:yzl-logger:1.0-RELEASE">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/../../../yzl-maven/cn/net/yzl/yzl-logger/1.0-RELEASE/yzl-logger-1.0-RELEASE.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$PROJECT_DIR$/../../../yzl-maven/cn/net/yzl/yzl-logger/1.0-RELEASE/yzl-logger-1.0-RELEASE-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$PROJECT_DIR$/../../../yzl-maven/cn/net/yzl/yzl-logger/1.0-RELEASE/yzl-logger-1.0-RELEASE-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>
